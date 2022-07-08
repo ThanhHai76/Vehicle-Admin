@@ -13,12 +13,7 @@ import 'bootstrap'
 // import '@/assets/css/fonts.css'
 import '@/assets/css/bootstrap.min.css'
 import '@/assets/css/font-awesome.min.css'
-import '@/assets/css/ion.rangeSlider.css'
 
-import '@/assets/css/ion.rangeSlider.skinFlat.css'
-import '@/assets/js/plugin/magnific/magnific-popup.css'
-import '@/assets/js/plugin/slick/slick.css'
-import '@/assets/js/plugin/slick/slick-theme.css'
 import '@/assets/css/style.css'
 
 import '@/assets/css/style_2.css'
