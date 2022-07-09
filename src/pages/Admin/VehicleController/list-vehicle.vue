@@ -157,7 +157,7 @@
                                     <div class="toggle-expand-content" data-content="pageMenu">
                                         <ul class="nk-block-tools justify-between g-3">
                                             <!-- <li><a href="#" class="btn btn-white btn-outline-light"><em class="icon ni ni-upload-cloud"></em><span>Import</span></a></li> -->
-                                            <li><a href="#" data-toggle="modal" @click="showModalAdd = true" data-target="#addPayment" class="btn text-white bg-primary"><em class="icon ni ni-plus"></em><span>Thêm cấu hình</span></a></li>
+                                            <li><a href="#" data-toggle="modal" @click="showModalAdd = true" data-target="#addPayment" class="btn text-white bg-primary"><em class="icon ni ni-plus"></em><span>Thêm phương tiện</span></a></li>
                                         </ul>
                                     </div>
                                 </div><!-- .toggle-wrap -->
@@ -190,92 +190,57 @@
                                     <div class="nk-tb-list nk-tb-ulist">
                                         <div class="nk-tb-item nk-tb-head">
                                             <div class="nk-tb-col nk-tb-col-check">
-                                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                    <input type="checkbox" class="custom-control-input" id="uid">
-                                                    <label class="custom-control-label" for="uid"></label>
-                                                </div>
+                                                STT
                                             </div>
-                                            <div class="nk-tb-col"><span class="sub-text">User</span></div>
-                                            <div class="nk-tb-col tb-col-mb"><span class="sub-text">Balance</span></div>
-                                            <div class="nk-tb-col tb-col-md"><span class="sub-text">Phone</span></div>
-                                            <div class="nk-tb-col tb-col-lg"><span class="sub-text">Verified</span></div>
-                                            <div class="nk-tb-col tb-col-lg"><span class="sub-text">Last Login</span></div>
-                                            <div class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></div>
+                                            <div class="nk-tb-col text-center">
+                                              <span class="sub-text">Tên xe / Mô tả</span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-mb"><span class="sub-text">Nơi bán</span></div>
+                                            <div class="nk-tb-col tb-col-md"><span class="sub-text">Giá bán</span></div>
+                                            <div class="nk-tb-col tb-col-lg"><span class="sub-text">Năm sản xuất</span></div>
+                                            <div class="nk-tb-col tb-col-lg"><span class="sub-text">Số dặm</span></div>
+                                            <div class="nk-tb-col tb-col-md"><span class="sub-text">Trạng thái</span></div>
                                             <div class="nk-tb-col nk-tb-col-tools text-right">
-                                                <div class="dropdown">
-                                                    <a href="#" class="btn btn-xs btn-outline-light btn-icon dropdown-toggle" data-toggle="dropdown" data-offset="0,5"><em class="icon ni ni-plus"></em></a>
-                                                    <div class="dropdown-menu dropdown-menu-xs dropdown-menu-right">
-                                                        <ul class="link-tidy sm no-bdr">
-                                                            <li>
-                                                                <div class="custom-control custom-control-sm custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input" checked="" id="bl">
-                                                                    <label class="custom-control-label" for="bl">Balance</label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="custom-control custom-control-sm custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input" checked="" id="ph">
-                                                                    <label class="custom-control-label" for="ph">Phone</label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="custom-control custom-control-sm custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input" id="vri">
-                                                                    <label class="custom-control-label" for="vri">Verified</label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="custom-control custom-control-sm custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input" id="st">
-                                                                    <label class="custom-control-label" for="st">Status</label>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                                <span>Thao tác</span>
                                             </div>
                                         </div><!-- .nk-tb-item -->
-                                        <div class="nk-tb-item">
+                                        <div class="nk-tb-item" v-for="(item, index) in dataListVehicle" :key="item.id">
                                             <div class="nk-tb-col nk-tb-col-check">
-                                                <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                    <input type="checkbox" class="custom-control-input" id="uid1">
-                                                    <label class="custom-control-label" for="uid1"></label>
-                                                </div>
+                                                {{ index + 1 }}
                                             </div>
                                             <div class="nk-tb-col">
-                                                <a href="html/user-details-regular.html">
-                                                    <div class="user-card">
-                                                        <div class="user-avatar bg-primary">
-                                                            <span>AB</span>
-                                                        </div>
-                                                        <div class="user-info">
-                                                            <span class="tb-lead">Abu Bin Ishtiyak <span class="dot dot-success d-md-none ml-1"></span></span>
-                                                            <span>info@softnio.com</span>
-                                                        </div>
+                                                <div class="user-card">
+                                                    <div class="user-avatar bg-primary">
+                                                        <a href="javascript:void(0)" @click="openImage(item.avatar)">
+                                                        <span><img :src="item.avatar" alt=""></span>
+                                                        </a>
                                                     </div>
-                                                </a>
+                                                    <div class="user-info">
+                                                        <span class="tb-lead">{{ item.titleSell }} <span class="dot dot-success d-md-none ml-1"></span></span>
+                                                        <span class="text-description" v-html="decodeB64toUTF8(item.description)"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="nk-tb-col tb-col-mb">
-                                                <span class="tb-amount">35,040.34 <span class="currency">USD</span></span>
+                                                <span class="tb-amount"> {{ item.nameCity }} </span>
                                             </div>
                                             <div class="nk-tb-col tb-col-md">
-                                                <span>+811 847-4958</span>
+                                                <span> {{ item.price | transformNumber }} </span> VNĐ
                                             </div>
                                             <div class="nk-tb-col tb-col-lg">
                                                 <ul class="list-status">
-                                                    <li><em class="icon text-success ni ni-check-circle"></em> <span>Email</span></li>
-                                                    <li><em class="icon ni ni-alert-circle"></em> <span>KYC</span></li>
+                                                    <li><em class="icon text-success ni ni-check-circle"></em> <span>{{ item.manufactureYear }}</span></li>
                                                 </ul>
                                             </div>
                                             <div class="nk-tb-col tb-col-lg">
-                                                <span>10 Feb 2020</span>
+                                                <span>{{ item.odometer | transformNumber }}</span>
                                             </div>
                                             <div class="nk-tb-col tb-col-md">
-                                                <span class="tb-status text-success">Active</span>
+                                                <span class="tb-status text-success">{{ item.statusVehicle }}</span>
                                             </div>
                                             <div class="nk-tb-col nk-tb-col-tools">
                                                 <ul class="nk-tb-actions gx-1">
-                                                    <li class="nk-tb-action-hidden">
+                                                    <!-- <li class="nk-tb-action-hidden">
                                                         <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Wallet">
                                                             <em class="icon ni ni-wallet-fill"></em>
                                                         </a>
@@ -289,7 +254,7 @@
                                                         <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Suspend">
                                                             <em class="icon ni ni-user-cross-fill"></em>
                                                         </a>
-                                                    </li>
+                                                    </li> -->
                                                     <li>
                                                         <div class="drodown">
                                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
@@ -297,12 +262,9 @@
                                                                 <ul class="link-list-opt no-bdr">
                                                                     <li><a href="#"><em class="icon ni ni-focus"></em><span>Quick View</span></a></li>
                                                                     <li><a href="#"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
-                                                                    <li><a href="#"><em class="icon ni ni-repeat"></em><span>Transaction</span></a></li>
-                                                                    <li><a href="#"><em class="icon ni ni-activity-round"></em><span>Activities</span></a></li>
                                                                     <li class="divider"></li>
                                                                     <li><a href="#"><em class="icon ni ni-shield-star"></em><span>Reset Pass</span></a></li>
                                                                     <li><a href="#"><em class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a></li>
-                                                                    <li><a href="#"><em class="icon ni ni-na"></em><span>Suspend User</span></a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -343,16 +305,44 @@
 
 <script>
 import EventBus from '../Components/EventBus'
+import { VehicleService } from '@/services/vehicle.service'
+import { ConfigService } from '@/services/config.service'
 export default {
   data () {
     return {
       dataUser: JSON.parse(localStorage.getItem('userData')),
+      selectData: {
+        codeTransport: null,
+        transport: null,
+        company: null,
+        series: null,
+        model: null,
+        codeCity: null,
+        status: null,
+        design: null,
+        fuel: null,
+        minPrice: null,
+        maxPrice: null,
+        minManufactureYear: null,
+        maxManufactureYear: null
+      },
       search: {
         page: 1,
-        limit: 8,
+        limit: 20,
         total: 0
       },
+      dataListVehicle: [],
+      configRange: {},
+      showModalNoti: false,
+      notiSuccess: false,
+      messNoti: null,
+      showModalAdd: false,
     }
+  },
+
+  async mounted () {
+    await this.getPriceYearRange()
+    this.submitSearch()
   },
 
   methods: {
@@ -366,11 +356,77 @@ export default {
     },
     showSidebar () {
       EventBus.$emit('showSidebar', true);
+    },
+
+    async getPriceYearRange () {
+      try {
+        const [configPrice, configYear] = await
+          Promise.all([
+            ConfigService.getPriceYearRange({code: 'RANGE_PRICE'}),
+            ConfigService.getPriceYearRange({code: 'RANGE_YEAR'})
+          ])
+        this.configRange = {
+          price: configPrice.data,
+          year: configYear.data
+        }
+        localStorage.setItem('PriceYearRange', JSON.stringify(this.configRange))
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    async submitSearch() {
+      try {
+        const { price, year } = this.configRange
+
+        this.selectData.minPrice = price.minValue
+        this.selectData.maxPrice = price.maxValue
+        
+        this.selectData.minManufactureYear = year.minValue
+        this.selectData.maxManufactureYear = year.maxValue
+
+        const response = await VehicleService.getVehicleList({
+          codeTransport: this.selectData.codeTransport,
+          codeCity: this.selectData.codeCity,
+          minPrice: this.selectData.minPrice * 1000000,
+          maxPrice: this.selectData.maxPrice * 1000000,
+          minManufactureYear: this.selectData.minManufactureYear,
+          maxManufactureYear: this.selectData.maxManufactureYear,
+          status: this.selectData.status,
+          limit: this.search.limit,
+          page: this.search.page
+        })
+        if (response.code === 1000) {
+          this.dataListVehicle = response.data.vehicleList
+          this.search.total = response.totalPage.total
+        } else {
+          this.dataListVehicle = []
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    decodeB64toUTF8 (string) {
+      return decodeURIComponent(escape(window.atob( string)))
+    },
+
+    openImage(avatar) {
+      window.open(avatar)
     }
   }
 }
 </script>
 
 <style scoped>
-
+.text-description {
+  display: block;
+  line-height: 1.3;
+  -webkit-line-clamp: 3;  /* số dòng hiển thị */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 30rem;
+  text-overflow: ellipsis;
+  margin-top:10px;
+}
 </style>
