@@ -298,6 +298,12 @@
           @close="showModalNoti = false"
         ></Notification>
 
+        <addVehicle
+          :showModalAdd="showModalAdd"
+          @close="showModalAdd = false"
+        >
+        </addVehicle>
+
     </div>
     
  </div>
@@ -307,6 +313,7 @@
 import EventBus from '../Components/EventBus'
 import { VehicleService } from '@/services/vehicle.service'
 import { ConfigService } from '@/services/config.service'
+import addVehicle from '../Components/Modal/addListVehicle.vue'
 export default {
   data () {
     return {
@@ -338,6 +345,10 @@ export default {
       messNoti: null,
       showModalAdd: false,
     }
+  },
+
+  components: {
+    addVehicle
   },
 
   async mounted () {
