@@ -149,7 +149,7 @@
                     <div class="nk-block-head">
                         <div class="nk-block-between g-3">
                             <div class="nk-block-head-content">
-                                <h3 class="nk-block-title page-title">Danh sách phương tiện</h3>
+                                <h3 class="nk-block-title page-title">Danh sách tham số kỹ thuật</h3>
                             </div><!-- .nk-block-head-content -->
                             <div class="nk-block-head-content">
                                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -166,6 +166,16 @@
                     </div><!-- .nk-block-head -->
                     <div class="nk-block">
                         <div class="card card-bordered card-stretch">
+                            <div class="card-title-group mt-3">
+                                  <div class="card-tools">
+                                      <div class="form-inline">
+                                          <div class="form-wrap ml-2">
+                                              <b-form-select class="w-100" v-model="selectedTransport" :options="transportOptions" @change="getListTransportParameter"></b-form-select>
+                                          </div>
+                                      </div><!-- .form-inline -->
+                                  </div><!-- .card-tools -->
+                              </div><!-- .card-title-group -->
+
                             <div class="card-inner-group">
                                 <div class="card-inner position-relative card-tools-toggle">
                                   <div class="card-title-group">
@@ -195,76 +205,44 @@
                                             <div class="nk-tb-col text-center">
                                               <span class="sub-text">Tên xe / Mô tả</span>
                                             </div>
-                                            <div class="nk-tb-col tb-col-mb"><span class="sub-text">Nơi bán</span></div>
-                                            <div class="nk-tb-col tb-col-md"><span class="sub-text">Giá bán</span></div>
-                                            <div class="nk-tb-col tb-col-lg"><span class="sub-text">Năm sản xuất</span></div>
-                                            <div class="nk-tb-col tb-col-lg"><span class="sub-text">Số dặm</span></div>
+                                            <div class="nk-tb-col tb-col-mb"><span class="sub-text">Ngày tạo</span></div>
+                                            <div class="nk-tb-col tb-col-md"><span class="sub-text">Ngày cập nhật</span></div>
                                             <div class="nk-tb-col tb-col-md"><span class="sub-text">Trạng thái</span></div>
                                             <div class="nk-tb-col nk-tb-col-tools text-right">
                                                 <span>Thao tác</span>
                                             </div>
                                         </div><!-- .nk-tb-item -->
-                                        <div class="nk-tb-item" v-for="(item, index) in dataListVehicle" :key="item.id">
+                                        <div class="nk-tb-item" v-for="(item, index) in dataListParams" :key="item.id">
                                             <div class="nk-tb-col nk-tb-col-check">
                                                 {{ index + 1 }}
                                             </div>
                                             <div class="nk-tb-col">
-                                                <div class="user-card">
-                                                    <div class="user-avatar bg-primary">
-                                                        <a href="javascript:void(0)" @click="openImage(item.avatar)">
-                                                        <span><img :src="item.avatar" alt=""></span>
-                                                        </a>
-                                                    </div>
+                                                <div class="user-card justify-content-center">
                                                     <div class="user-info">
-                                                        <span class="tb-lead">{{ item.titleSell }} <span class="dot dot-success d-md-none ml-1"></span></span>
-                                                        <span class="text-description" v-html="decodeB64toUTF8(item.description)"></span>
+                                                        <span class="tb-lead">{{ item.name }} <span class="dot dot-success d-md-none ml-1"></span></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="nk-tb-col tb-col-mb">
-                                                <span class="tb-amount"> {{ item.nameCity }} </span>
+                                                <span class="tb-amount"> {{ item.dateCreate | formatDateTime1 }} </span>
                                             </div>
                                             <div class="nk-tb-col tb-col-md">
-                                                <span> {{ item.price | transformNumber }} </span> VNĐ
-                                            </div>
-                                            <div class="nk-tb-col tb-col-lg">
-                                                <ul class="list-status">
-                                                    <li><em class="icon text-success ni ni-check-circle"></em> <span>{{ item.manufactureYear }}</span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="nk-tb-col tb-col-lg">
-                                                <span>{{ item.odometer | transformNumber }}</span>
+                                                <span> {{ item.dateModified | formatDateTime1 }} </span>
                                             </div>
                                             <div class="nk-tb-col tb-col-md">
-                                                <span class="tb-status text-success">{{ item.statusVehicle }}</span>
+                                                <span class="tb-status text-success">{{ item.status }}</span>
                                             </div>
                                             <div class="nk-tb-col nk-tb-col-tools">
                                                 <ul class="nk-tb-actions gx-1">
-                                                    <!-- <li class="nk-tb-action-hidden">
-                                                        <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Wallet">
-                                                            <em class="icon ni ni-wallet-fill"></em>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nk-tb-action-hidden">
-                                                        <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Send Email">
-                                                            <em class="icon ni ni-mail-fill"></em>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nk-tb-action-hidden">
-                                                        <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Suspend">
-                                                            <em class="icon ni ni-user-cross-fill"></em>
-                                                        </a>
-                                                    </li> -->
                                                     <li>
                                                         <div class="drodown">
                                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <ul class="link-list-opt no-bdr">
-                                                                    <li><a href="#"><em class="icon ni ni-focus"></em><span>Quick View</span></a></li>
-                                                                    <li><a href="#"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
+                                                                    <li><a href="#"><em class="icon ni ni-focus"></em><span>Xem</span></a></li>
                                                                     <li class="divider"></li>
-                                                                    <li><a href="#"><em class="icon ni ni-shield-star"></em><span>Reset Pass</span></a></li>
-                                                                    <li><a href="#"><em class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a></li>
+                                                                    <li><a href="#"><em class="icon ni ni-shield-star"></em><span>Sửa</span></a></li>
+                                                                    <li><a href="#"><em class="icon ni ni-shield-off"></em><span>Xoá</span></a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -319,32 +297,25 @@ export default {
   data () {
     return {
       dataUser: JSON.parse(localStorage.getItem('userData')),
-      selectData: {
-        codeTransport: null,
-        transport: null,
-        company: null,
-        series: null,
-        model: null,
-        codeCity: null,
-        status: null,
-        design: null,
-        fuel: null,
-        minPrice: null,
-        maxPrice: null,
-        minManufactureYear: null,
-        maxManufactureYear: null
-      },
-      search: {
-        page: 1,
-        limit: 20,
-        total: 0
-      },
-      dataListVehicle: [],
+      dataListParams: [],
       configRange: {},
       showModalNoti: false,
       notiSuccess: false,
       messNoti: null,
       showModalAdd: false,
+      search: {
+        page: 1,
+        limit: 20,
+        total: 0
+      },
+      transportSelected: null,
+      selectedTransport: null,
+      transportOptions: [
+        { value: null, text: 'Chọn phương tiện' },
+        { value: 'transport_car', text: 'Ô tô' },
+        { value: 'transport_motorcycle', text: 'Xe máy' },
+        { value: 'transport_bicycle', text: 'Xe đạp' },
+      ]
     }
   },
 
@@ -353,8 +324,7 @@ export default {
   },
 
   async mounted () {
-    await this.getPriceYearRange()
-    this.submitSearch()
+    await this.getListTransportParameter('transport_car')
   },
 
   methods: {
@@ -370,70 +340,15 @@ export default {
       EventBus.$emit('showSidebar', true);
     },
 
-    async getPriceYearRange () {
+    async getListTransportParameter (transport) {
       try {
-        const [configPrice, configYear] = await
-          Promise.all([
-            ConfigService.getPriceYearRange({code: 'RANGE_PRICE'}),
-            ConfigService.getPriceYearRange({code: 'RANGE_YEAR'})
-          ])
-        this.configRange = {
-          price: configPrice.data,
-          year: configYear.data
-        }
-        localStorage.setItem('PriceYearRange', JSON.stringify(this.configRange))
-      } catch (error) {
-        console.log(error)
-      }
-    },
-
-    async submitSearch() {
-      try {
-        const { price, year } = this.configRange
-
-        this.selectData.minPrice = price.minValue
-        this.selectData.maxPrice = price.maxValue
-        
-        this.selectData.minManufactureYear = year.minValue
-        this.selectData.maxManufactureYear = year.maxValue
-
-        const response = await VehicleService.getVehicleList({
-          codeTransport: this.selectData.codeTransport,
-          codeCity: this.selectData.codeCity,
-          minPrice: this.selectData.minPrice * 1000000,
-          maxPrice: this.selectData.maxPrice * 1000000,
-          minManufactureYear: this.selectData.minManufactureYear,
-          maxManufactureYear: this.selectData.maxManufactureYear,
-          status: this.selectData.status,
-          limit: this.search.limit,
-          page: this.search.page
-        })
-        if (response.code === 1000) {
-          this.dataListVehicle = response.data.vehicleList
-          this.search.total = response.totalPage.total
-        } else {
-          this.dataListVehicle = []
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    },
-
-    decodeB64toUTF8 (string) {
-      return decodeURIComponent(escape(window.atob( string)))
-    },
-
-    openImage(avatar) {
-      window.open(avatar)
-    },
-
-    async getListTransportParameter () {
-      try {
+        console.log(transport);
         const response = await TransportService.getListTransportParameter({
-          codeParent: 'transport_motorcycle'
+          codeParent: transport
         })
+        this.dataListParams = response.data
       } catch (error) {
-        
+        console.log(error)
       }
     }
   }

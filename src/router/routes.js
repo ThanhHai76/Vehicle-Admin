@@ -24,6 +24,7 @@ import createTransport from '@/pages/Admin/TransportController/create-transport.
 
 import configVehicle from '@/pages/Admin/VehicleController/config-vehicle.vue'
 import listVehicle from '@/pages/Admin/VehicleController/list-vehicle.vue'
+import listSpecification from '@/pages/Admin/DetailController/specificationsList.vue'
 
 export const routes = [
   {
@@ -118,20 +119,27 @@ export const routes = [
     path: '/admin/create-transport',
     name: 'createTransport',
     component: createTransport,
-    meta: { isAuth: true, title: `${DOMAIN_TITLE} | create transport`, layout: 'admin' }
+    meta: { isAuth: true, title: `${DOMAIN_TITLE} | Tạo phương tiện`, layout: 'admin' }
   },
 
   {
     path: '/admin/config-vehicle',
     name: 'configVehicle',
     component: configVehicle,
-    meta: { isAuth: true, title: `${DOMAIN_TITLE} | config vehicle`, layout: 'admin' }
+    meta: { isAuth: true, title: `${DOMAIN_TITLE} | Cấu hình phương tiện`, layout: 'admin' }
   },
   {
     path: '/admin/list-vehicle',
     name: 'listVehicle',
     component: listVehicle,
-    meta: { isAuth: true, title: `${DOMAIN_TITLE} | list vehicle`, layout: 'admin' }
+    meta: { isAuth: true, title: `${DOMAIN_TITLE} | Danh sách phương tiện`, layout: 'admin' }
+  },
+
+  {
+    path: '/admin/list-specification',
+    name: 'listSpecification',
+    component: listSpecification,
+    meta: { isAuth: true, title: `${DOMAIN_TITLE} | Danh sách thông số kỹ thuật`, layout: 'admin' }
   },
   
 ]
