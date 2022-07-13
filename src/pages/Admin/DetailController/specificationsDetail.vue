@@ -149,7 +149,18 @@
                     <div class="nk-block-head">
                         <div class="nk-block-between g-3">
                             <div class="nk-block-head-content">
-                                <h3 class="nk-block-title page-title">Danh sách tham số kỹ thuật</h3>
+                                <h3 class="nk-block-title page-title">Danh sách các thông số</h3>
+                            </div><!-- .nk-block-head-content -->
+                            <div class="nk-block-head-content">
+                                <div class="toggle-wrap nk-block-tools-toggle">
+                                    <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                    <div class="toggle-expand-content" data-content="pageMenu">
+                                        <ul class="nk-block-tools justify-between g-3">
+                                            <!-- <li><a href="#" class="btn btn-white btn-outline-light"><em class="icon ni ni-upload-cloud"></em><span>Import</span></a></li> -->
+                                            <li><a href="#" data-toggle="modal" @click="showModalAdd = true" data-target="#addPayment" class="btn text-white bg-primary"><em class="icon ni ni-plus"></em><span>Thêm thông số</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div><!-- .toggle-wrap -->
                             </div><!-- .nk-block-head-content -->
                         </div><!-- .nk-block-between -->
                     </div><!-- .nk-block-head -->
@@ -159,7 +170,7 @@
                                   <div class="card-tools">
                                       <div class="form-inline">
                                           <div class="form-wrap ml-2">
-                                              <b-form-select class="w-100" v-model="selectedTransport" :options="transportOptions" @change="getListTransportParameter"></b-form-select>
+                                             
                                           </div>
                                       </div><!-- .form-inline -->
                                   </div><!-- .card-tools -->
@@ -187,30 +198,28 @@
                                 
                                 <div class="card-inner p-0">
                                     <div class="nk-tb-list nk-tb-ulist">
-                                        <div class="nk-tb-item nk-tb-head">
+                                        <div class="nk-tb-item nk-tb-head text-center">
                                             <div class="nk-tb-col nk-tb-col-check">
                                                 STT
                                             </div>
-                                            <div class="nk-tb-col text-center">
+                                            <div class="nk-tb-col">
                                               <span class="sub-text">Tên thông số</span>
                                             </div>
                                             <div class="nk-tb-col tb-col-mb"><span class="sub-text">Ngày tạo</span></div>
                                             <div class="nk-tb-col tb-col-md"><span class="sub-text">Ngày cập nhật</span></div>
                                             <div class="nk-tb-col tb-col-md"><span class="sub-text">Trạng thái</span></div>
-                                            <!-- <div class="nk-tb-col nk-tb-col-tools text-right">
+                                            <div class="nk-tb-col nk-tb-col-tools text-right">
                                                 <span>Thao tác</span>
-                                            </div> -->
+                                            </div>
                                         </div><!-- .nk-tb-item -->
-                                        <div class="nk-tb-item" v-for="(item, index) in dataListParams" :key="item.id">
+                                        <div class="nk-tb-item text-center" v-for="(item, index) in dataListSpecifications" :key="item.id">
                                             <div class="nk-tb-col nk-tb-col-check">
                                                 {{ index + 1 }}
                                             </div>
                                             <div class="nk-tb-col">
                                                 <div class="user-card justify-content-center">
                                                     <div class="user-info">
-                                                      <a href="javascript:void(0)" @click="navigateToDetail(item.id)">
                                                         <span class="tb-lead text-blue">{{ item.name }}</span>
-                                                      </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -220,24 +229,27 @@
                                             <div class="nk-tb-col tb-col-md">
                                                 <span> {{ item.dateModified | formatDateTime1 }} </span>
                                             </div>
-                                            <div class="nk-tb-col tb-col-md">
+                                            <div class="nk-tb-col tb-col-md text-center">
                                                 <span class="tb-status text-success">{{ item.status }}</span>
                                             </div>
-                                            <!-- <div class="nk-tb-col nk-tb-col-tools">
+                                            <div class="nk-tb-col nk-tb-col-tools">
                                                 <ul class="nk-tb-actions gx-1">
                                                     <li>
                                                         <div class="drodown">
                                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <ul class="link-list-opt no-bdr">
-                                                                    <li><a href="#" @click="getListTransportColumn(item.id)"><em class="icon ni ni-focus"></em><span>Xem</span></a></li>
-
+                                                                    <li><a href="#"><em class="icon ni ni-focus"></em><span>Quick View</span></a></li>
+                                                                    <li><a href="#"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
+                                                                    <li class="divider"></li>
+                                                                    <li><a href="#"><em class="icon ni ni-shield-star"></em><span>Reset Pass</span></a></li>
+                                                                    <li><a href="#"><em class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
                                                     </li>
                                                 </ul>
-                                            </div> -->
+                                            </div>
                                         </div><!-- .nk-tb-item -->
                                     </div><!-- .nk-tb-list -->
                                 </div><!-- .card-inner -->
@@ -265,16 +277,11 @@
           @close="showModalNoti = false"
         ></Notification>
 
-        <b-modal v-model="openModalShowSpecification" class="modal-noti" title="Chi tiết thông số" centered>
-          <div class="text-center">
-            <b-table hover :items="dataSpecificationColumn"></b-table>
-          </div>
-          <template #modal-footer="{ cancel }">
-            <b-button size="sm" variant="light" @click="cancel()">
-              Đóng
-            </b-button>
-          </template>
-        </b-modal>
+        <addVehicle
+          :showModalAdd="showModalAdd"
+          @close="showModalAdd = false"
+        >
+        </addVehicle>
 
     </div>
     
@@ -291,7 +298,7 @@ export default {
   data () {
     return {
       dataUser: JSON.parse(localStorage.getItem('userData')),
-      dataListParams: [],
+      dataListSpecifications: [],
       configRange: {},
       showModalNoti: false,
       notiSuccess: false,
@@ -311,7 +318,6 @@ export default {
         { value: 'transport_bicycle', text: 'Xe đạp' },
       ],
       dataListTransport: [],
-      openModalShowSpecification: false,
       dataSpecificationColumn: []
     }
   },
@@ -321,8 +327,7 @@ export default {
   },
 
   async mounted () {
-    await this.getListTransport()
-    await this.getListTransportParameter('transport_car')
+    await this.getListTransportColumn()
   },
 
   methods: {
@@ -338,45 +343,13 @@ export default {
       EventBus.$emit('showSidebar', true);
     },
 
-    async getListTransport () {
-      try {
-        const response = await TransportService.getListTransport({
-          codeParent: 'transport'
-        })
-        this.dataListTransport = response.data.transportListRes
-      } catch (error) {
-        console.log(error)
-      }
-    },
-
-    async getListTransportParameter (transport) {
-      try {
-        const response = await TransportService.getListTransportParameter({
-          codeParent: transport
-        })
-        this.dataListParams = response.data
-        this.transportSelectedId = this.dataListTransport.find(e => e.code === transport).id
-      } catch (error) {
-        console.log(error)
-      }
-    },
-
-    navigateToDetail (parameterId) {
-      this.$router.push(`/admin/list-parts/?transportId=${this.transportSelectedId}&parameterId=${parameterId}`)
-    },
-
-    async getListTransportColumn (parameterId) {
+    async getListTransportColumn () {
       try {
         const response = await TransportService.getListTransportColumn({
-          idParentTransport: this.transportSelectedId,
-          idParentParameter: [parameterId]
+          idParentTransport: this.$route.query.transportId,
+          idParentParameter: [this.$route.query.parameterId]
         })
-        this.dataSpecificationColumn = response.data.map(e => {
-          return {
-            'Tên': e.name, 'Tham số': e.parameters
-          }
-        })
-        // this.openModalShowSpecification = true
+        this.dataListSpecifications = response.data
       } catch (error) {
         console.log(error)
       }
@@ -386,14 +359,4 @@ export default {
 </script>
 
 <style scoped>
-.text-description {
-  display: block;
-  line-height: 1.3;
-  -webkit-line-clamp: 3;  /* số dòng hiển thị */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  max-width: 30rem;
-  text-overflow: ellipsis;
-  margin-top:10px;
-}
 </style>

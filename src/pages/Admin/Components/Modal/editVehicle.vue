@@ -14,8 +14,8 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </template>
-      <div class="modal-body">
-          <b-tabs content-class="mt-3">
+      <div>
+          <b-tabs>
             <b-tab :title="title" active>
               <form action="#" class="mt-3" @submit.prevent="updateTransport">
                   <div class="row g-gs">

@@ -188,11 +188,11 @@
                                 
                                 <div class="card-inner p-0">
                                     <div class="nk-tb-list nk-tb-ulist">
-                                        <div class="nk-tb-item nk-tb-head">
+                                        <div class="nk-tb-item nk-tb-head text-center">
                                             <div class="nk-tb-col nk-tb-col-check">
                                                 STT
                                             </div>
-                                            <div class="nk-tb-col text-center">
+                                            <div class="nk-tb-col">
                                               <span class="sub-text">Tên xe / Mô tả</span>
                                             </div>
                                             <div class="nk-tb-col tb-col-mb"><span class="sub-text">Nơi bán</span></div>
@@ -204,7 +204,7 @@
                                                 <span>Thao tác</span>
                                             </div>
                                         </div><!-- .nk-tb-item -->
-                                        <div class="nk-tb-item" v-for="(item, index) in dataListVehicle" :key="item.id">
+                                        <div class="nk-tb-item text-center" v-for="(item, index) in dataListVehicle" :key="item.id">
                                             <div class="nk-tb-col nk-tb-col-check">
                                                 {{ index + 1 }}
                                             </div>
@@ -217,7 +217,6 @@
                                                     </div>
                                                     <div class="user-info">
                                                         <span class="tb-lead">{{ item.titleSell }} <span class="dot dot-success d-md-none ml-1"></span></span>
-                                                        <span class="text-description" v-html="decodeB64toUTF8(item.description)"></span>
                                                     </div>
                                                 </div>
                                             </div>

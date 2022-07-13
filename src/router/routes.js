@@ -25,11 +25,13 @@ import createTransport from '@/pages/Admin/TransportController/create-transport.
 import configVehicle from '@/pages/Admin/VehicleController/config-vehicle.vue'
 import listVehicle from '@/pages/Admin/VehicleController/list-vehicle.vue'
 import listSpecification from '@/pages/Admin/DetailController/specificationsList.vue'
+import detailSpecification from '@/pages/Admin/DetailController/specificationsDetail.vue'
 
 export const routes = [
   {
     path: '/',
     name: 'index',
+    redirect: '/login',
     component: homePage,
     meta: { title: `${DOMAIN_TITLE} | home`, layout: 'default' }
   },
@@ -140,6 +142,12 @@ export const routes = [
     name: 'listSpecification',
     component: listSpecification,
     meta: { isAuth: true, title: `${DOMAIN_TITLE} | Danh sách thông số kỹ thuật`, layout: 'admin' }
+  },
+  {
+    path: '/admin/list-parts',
+    name: 'detailSpecification',
+    component: detailSpecification,
+    meta: { isAuth: true, title: `${DOMAIN_TITLE} | Chi tiết thông số kỹ thuật`, layout: 'admin' }
   },
   
 ]
