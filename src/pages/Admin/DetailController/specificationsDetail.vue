@@ -157,7 +157,7 @@
                                     <div class="toggle-expand-content" data-content="pageMenu">
                                         <ul class="nk-block-tools justify-between g-3">
                                             <!-- <li><a href="#" class="btn btn-white btn-outline-light"><em class="icon ni ni-upload-cloud"></em><span>Import</span></a></li> -->
-                                            <li><a href="#" data-toggle="modal" @click="showModalAdd = true" data-target="#addPayment" class="btn text-white bg-primary"><em class="icon ni ni-plus"></em><span>Thêm thông số</span></a></li>
+                                            <li><a href="#" data-toggle="modal" @click="showModalAdd = true, title = 'Thêm thông số'" data-target="#addPayment" class="btn text-white bg-primary"><em class="icon ni ni-plus"></em><span>Thêm thông số</span></a></li>
                                         </ul>
                                     </div>
                                 </div><!-- .toggle-wrap -->
@@ -239,11 +239,11 @@
                                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <ul class="link-list-opt no-bdr">
-                                                                    <li><a href="#"><em class="icon ni ni-focus"></em><span>Quick View</span></a></li>
-                                                                    <li><a href="#"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
-                                                                    <li class="divider"></li>
+                                                                    <li><a href="#"><em class="icon ni ni-focus"></em><span>Xem</span></a></li>
+                                                                    <li><a href="javascript:void(0)" @click="showEditItem(item)"><em class="icon ni ni-edit"></em><span>Sửa</span></a></li>
+                                                                    <!-- <li class="divider"></li>
                                                                     <li><a href="#"><em class="icon ni ni-shield-star"></em><span>Reset Pass</span></a></li>
-                                                                    <li><a href="#"><em class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a></li>
+                                                                    <li><a href="#"><em class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a></li> -->
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -277,11 +277,20 @@
           @close="showModalNoti = false"
         ></Notification>
 
-        <addVehicle
+        <add-specifications
           :showModalAdd="showModalAdd"
+          :title="title"
           @close="showModalAdd = false"
         >
-        </addVehicle>
+        </add-specifications>
+
+        <add-specifications
+          :showModalAdd="showModalEdit"
+          :title="title"
+          :editData="editData"
+          @close="showModalEdit = false"
+        >
+        </add-specifications>
 
     </div>
     
@@ -293,7 +302,7 @@ import EventBus from '../Components/EventBus'
 import { VehicleService } from '@/services/vehicle.service'
 import { ConfigService } from '@/services/config.service'
 import { TransportService } from '@/services/transport.service'
-import addVehicle from '../Components/Modal/addListVehicle.vue'
+import addSpecifications from '../Components/Modal/addSpecifications.vue'
 export default {
   data () {
     return {
@@ -304,6 +313,9 @@ export default {
       notiSuccess: false,
       messNoti: null,
       showModalAdd: false,
+      showModalEdit: false,
+      itemSelected: null,
+      title: null,
       search: {
         page: 1,
         limit: 20,
@@ -318,12 +330,13 @@ export default {
         { value: 'transport_bicycle', text: 'Xe đạp' },
       ],
       dataListTransport: [],
-      dataSpecificationColumn: []
+      dataSpecificationColumn: [],
+      editData: []
     }
   },
 
   components: {
-    addVehicle
+    addSpecifications
   },
 
   async mounted () {
@@ -353,6 +366,12 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+
+    async showEditItem (item) {
+      this.showModalEdit = true
+      this.title = 'Sửa thông số'
+      this.editData = item
     }
   }
 }

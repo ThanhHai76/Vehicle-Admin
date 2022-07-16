@@ -23,7 +23,7 @@
                           <div class="form-group mt-2">
                               <label class="form-label" for="add-amount">Tên</label>
                               <div class="form-control-wrap">
-                                  <input type="text" v-model="editData.name" class="form-control" id="add-amount" placeholder="Nhập tên hãng">
+                                  <input type="text" v-model="editData.name" class="form-control" id="add-amount" placeholder="Nhập tên hãng" required>
                               </div>
                           </div>
                           <div class="form-group">
@@ -36,7 +36,13 @@
                           <div class="form-group" v-show="editData.checkPriority">
                               <label class="form-label" for="add-amount">Độ ưu tiên</label>
                               <div class="form-control-wrap">
-                                  <input type="text" v-model="editData.priority" class="form-control" id="add-amount" placeholder="Nhập độ ưu tiên">
+                                  <input type="number" v-model="editData.priority" class="form-control" id="add-amount" placeholder="Nhập độ ưu tiên">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="form-label" for="add-amount">Trạng thái</label>
+                              <div class="form-control-wrap">
+                                  <b-form-select class="w-100" v-model="editData.status" :options="listStatus"></b-form-select>
                               </div>
                           </div>
                       </div>
@@ -71,6 +77,12 @@ export default {
       showModalNoti: false,
       notiSuccess: false,
       messNoti: null,
+      listStatus: [
+        { value: null, text: 'Chọn trạng thái' },
+        { value: 'NEW', text: 'Mới' },
+        { value: 'ACTIVE', text: 'Hoạt động' },
+        { value: 'LOCK', text: 'Khoá' },
+      ]
     }
   },
   methods: {

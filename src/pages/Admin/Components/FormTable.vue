@@ -150,7 +150,7 @@
                           <div class="form-group mt-2">
                               <label class="form-label" for="add-amount">Tên</label>
                               <div class="form-control-wrap">
-                                  <input type="text" v-model="createData.company.name" class="form-control" id="add-amount" placeholder="Nhập tên hãng">
+                                  <input type="text" v-model="createData.company.name" class="form-control" id="add-amount" placeholder="Nhập tên hãng" required>
                               </div>
                           </div>
                           <div class="form-group">
@@ -163,7 +163,7 @@
                           <div class="form-group" v-show="createData.company.checkPriority">
                               <label class="form-label" for="add-amount">Độ ưu tiên</label>
                               <div class="form-control-wrap">
-                                  <input type="text" v-model="createData.company.priority" class="form-control" id="add-amount" placeholder="Nhập độ ưu tiên">
+                                  <input type="number" v-model="createData.company.priority" class="form-control" id="add-amount" placeholder="Nhập độ ưu tiên">
                               </div>
                           </div>
                       </div>
@@ -194,7 +194,7 @@
                           <div class="form-group mt-2">
                               <label class="form-label" for="add-amount">Tên Series</label>
                               <div class="form-control-wrap">
-                                  <input type="text" v-model="createData.series.name" class="form-control" placeholder="Nhập tên Series">
+                                  <input type="text" v-model="createData.series.name" class="form-control" placeholder="Nhập tên Series" required>
                               </div>
                           </div>
                           <div class="form-group">
@@ -207,7 +207,7 @@
                           <div class="form-group" v-show="createData.series.checkPriority">
                               <label class="form-label" for="add-amount">Độ ưu tiên</label>
                               <div class="form-control-wrap">
-                                  <input type="text" v-model="createData.series.priority" class="form-control" id="add-amount" placeholder="Nhập độ ưu tiên">
+                                  <input type="number" v-model="createData.series.priority" class="form-control" id="add-amount" placeholder="Nhập độ ưu tiên">
                               </div>
                           </div>
                       </div>
@@ -241,7 +241,7 @@
                           <div class="form-group mt-2">
                               <label class="form-label" for="add-amount">Tên Model</label>
                               <div class="form-control-wrap">
-                                  <input type="text" v-model="createData.model.name" class="form-control" placeholder="Nhập tên Model">
+                                  <input type="text" v-model="createData.model.name" class="form-control" placeholder="Nhập tên Model" required>
                               </div>
                           </div>
                           <div class="form-group">
@@ -254,7 +254,7 @@
                           <div class="form-group" v-show="createData.model.checkPriority">
                               <label class="form-label" for="add-amount">Độ ưu tiên</label>
                               <div class="form-control-wrap">
-                                  <input type="text" v-model="createData.model.priority" class="form-control" id="add-amount" placeholder="Nhập độ ưu tiên">
+                                  <input type="number" v-model="createData.model.priority" class="form-control" id="add-amount" placeholder="Nhập độ ưu tiên">
                               </div>
                           </div>
                       </div>

@@ -1,6 +1,16 @@
 <template>
   <div>
     <b-modal v-model="showModalNoti" class="modal-noti" title="Thông báo" centered>
+      <template #modal-header="{}">
+        <h5>Thông báo</h5>
+        <button
+          type="button"
+          class="close"
+          @click="$emit('close')"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </template>
       <div class="text-center">
         <b-icon v-if="notiSuccess" class="noti-icon" icon="check-circle-fill" variant="primary"></b-icon>
         <b-icon v-else icon="exclamation-circle-fill" class="noti-icon" variant="warning"></b-icon>

@@ -5,10 +5,10 @@ module.exports = {
 
   devServer: {
     disableHostCheck: true,
-    port: 8088,
-    public: 'http://123.31.47.4:8088/',
+    port: 8089,
     watchOptions: {
       clientLogLevel: 'warning'
     }
-  }
+  },
+  publicPath: "/"
 }
