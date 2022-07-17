@@ -34,6 +34,12 @@
                             <input type="number" v-model="editData.priority" class="form-control" id="add-amount" placeholder="Nhập độ ưu tiên">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="form-label" for="add-amount">Trạng thái</label>
+                        <div class="form-control-wrap">
+                            <b-form-select class="w-100" v-model="editData.status" :options="listStatus"></b-form-select>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-12">
                     <div class="form-group">
@@ -63,19 +69,28 @@ export default {
     return {
       showModalNoti: false,
       notiSuccess: false,
-      messNoti: null
+      messNoti: null,
+      listStatus: [
+        { value: null, text: 'Chọn trạng thái' },
+        { value: 'NEW', text: 'Mới' },
+        { value: 'ACTIVE', text: 'Hoạt động' },
+        { value: 'LOCK', text: 'Khoá' },
+      ]
     }
   },
   methods: {
     async submitAction () {
       try {
-        const response = await TransportService.actionTransport({
+        const data = {
           id: this.editData.id,
-          action: this.title === 'Thêm thông số' ? 'CREATE' : 'UPDATE',
+          // action: this.title === 'Thêm thông số' ? 'CREATE' : 'UPDATE',
           name: this.editData.name,
           icon: this.editData.icon,
-          priority: this.editData.priority
-        })
+          priority: this.editData.priority,
+          status: this.editData.status
+        }
+        // const response = await TransportService.actionTransport(data)
+        const response = await TransportService.editTransportColumn(data)
         if (response.code === 1000) {
           this.showModalNoti = true
           this.notiSuccess = true

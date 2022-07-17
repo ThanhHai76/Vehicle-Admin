@@ -93,7 +93,8 @@ export default {
           id: this.editData.id,
           name: this.editData.name,
           icon: this.editData.icon,
-          priority: this.editData.priority
+          priority: this.editData.priority,
+          status: this.editData.status
         })
         if (response.code === 1000) {
           this.showModalNoti = true

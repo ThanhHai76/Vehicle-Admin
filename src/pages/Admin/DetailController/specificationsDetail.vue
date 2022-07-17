@@ -157,7 +157,7 @@
                                     <div class="toggle-expand-content" data-content="pageMenu">
                                         <ul class="nk-block-tools justify-between g-3">
                                             <!-- <li><a href="#" class="btn btn-white btn-outline-light"><em class="icon ni ni-upload-cloud"></em><span>Import</span></a></li> -->
-                                            <li><a href="#" data-toggle="modal" @click="showModalAdd = true, title = 'Thêm thông số'" data-target="#addPayment" class="btn text-white bg-primary"><em class="icon ni ni-plus"></em><span>Thêm thông số</span></a></li>
+                                            <li><a href="#" data-toggle="modal" @click="showAddSpecification()" data-target="#addPayment" class="btn text-white bg-primary"><em class="icon ni ni-plus"></em><span>Thêm thông số</span></a></li>
                                         </ul>
                                     </div>
                                 </div><!-- .toggle-wrap -->
@@ -280,6 +280,7 @@
         <add-specifications
           :showModalAdd="showModalAdd"
           :title="title"
+          :editData="editData"
           @close="showModalAdd = false"
         >
         </add-specifications>
@@ -289,6 +290,7 @@
           :title="title"
           :editData="editData"
           @close="showModalEdit = false"
+          @reloadList="getListTransportColumn()"
         >
         </add-specifications>
 
@@ -331,7 +333,12 @@ export default {
       ],
       dataListTransport: [],
       dataSpecificationColumn: [],
-      editData: []
+      editData: {
+        id: null,
+        name: null,
+        icon: null,
+        priority: null
+      }
     }
   },
 
@@ -365,6 +372,17 @@ export default {
         this.dataListSpecifications = response.data
       } catch (error) {
         console.log(error)
+      }
+    },
+
+    showAddSpecification () {
+      this.showModalAdd = true
+      this.title = 'Thêm thông số'
+      this.editData = {
+        id: null,
+        name: null,
+        icon: null,
+        priority: null
       }
     },
 
