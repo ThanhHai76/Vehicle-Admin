@@ -24,6 +24,7 @@ import createTransport from '@/pages/Admin/TransportController/create-transport.
 
 import configVehicle from '@/pages/Admin/VehicleController/config-vehicle.vue'
 import listVehicle from '@/pages/Admin/VehicleController/list-vehicle.vue'
+import addVehicle from '@/pages/Admin/VehicleController/add-vehicle.vue'
 import listSpecification from '@/pages/Admin/DetailController/specificationsList.vue'
 import detailSpecification from '@/pages/Admin/DetailController/specificationsDetail.vue'
 
@@ -135,6 +136,12 @@ export const routes = [
     name: 'listVehicle',
     component: listVehicle,
     meta: { isAuth: true, title: `${DOMAIN_TITLE} | Danh sách phương tiện`, layout: 'admin' }
+  },
+  {
+    path: '/admin/add-vehicle',
+    name: 'addVehicle',
+    component: addVehicle,
+    meta: { isAuth: true, title: `${DOMAIN_TITLE} | Thêm phương tiện`, layout: 'admin' }
   },
 
   {

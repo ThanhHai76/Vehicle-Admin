@@ -22,4 +22,18 @@ export class ConfigService extends BaseService {
       throw new ErrorWrapper(error, message)
     }
   }
+
+  static async uploadImg (params = {}) {
+    try {
+      const response = await this.request({ auth: true }).post(storeHelper.getUrl('hnp.luxury.common.upload-file'), params,
+        {
+          headers: { 'Content-Type': 'application/json/form-data' }
+        }
+      )
+      return new ResponseWrapper(response, response.data.data)
+    } catch (error) {
+      const message = error.response.data ? error.response.data.error : error.response.statusText
+      throw new ErrorWrapper(error, message)
+    }
+  }
 }

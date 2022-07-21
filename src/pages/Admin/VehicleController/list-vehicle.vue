@@ -157,7 +157,7 @@
                                     <div class="toggle-expand-content" data-content="pageMenu">
                                         <ul class="nk-block-tools justify-between g-3">
                                             <!-- <li><a href="#" class="btn btn-white btn-outline-light"><em class="icon ni ni-upload-cloud"></em><span>Import</span></a></li> -->
-                                            <li><a href="#" data-toggle="modal" @click="showModalAdd = true" data-target="#addPayment" class="btn text-white bg-primary"><em class="icon ni ni-plus"></em><span>Thêm phương tiện</span></a></li>
+                                            <li><a href="#" data-toggle="modal" @click="navigateToAddVehicle()" data-target="#addPayment" class="btn text-white bg-primary"><em class="icon ni ni-plus"></em><span>Thêm phương tiện</span></a></li>
                                         </ul>
                                     </div>
                                 </div><!-- .toggle-wrap -->
@@ -434,6 +434,10 @@ export default {
       } catch (error) {
         
       }
+    },
+
+    navigateToAddVehicle () {
+      this.$router.push('add-vehicle')
     }
   }
 }
