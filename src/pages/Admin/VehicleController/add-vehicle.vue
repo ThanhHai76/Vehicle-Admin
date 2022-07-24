@@ -163,23 +163,82 @@
                                         </div>
                                         <form @submit.prevent="submitAddVehicle()">
                                             <div class="form-group">
+                                                <label class="form-label" for="pay-amount">Phương tiện</label>
+                                                <div class="form-control-wrap">
+                                                    <b-form-select
+                                                      class="select-box"
+                                                      v-model="dataAddVehicle.codeTransport"
+                                                      :options="transportOptions"
+                                                    >
+                                                    </b-form-select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <label class="form-label" for="full-name">Tên</label>
                                                 <div class="form-control-wrap">
                                                     <input v-model="dataAddVehicle.titleSell" type="text" class="form-control" id="full-name">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="form-label" for="phone-no">Năm sản xuất</label>
+                                                <label class="form-label" for="pay-amount">Tỉnh thành</label>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" v-model="dataAddVehicle.manufactureYear" class="form-control" id="phone-no">
+                                                    <b-form-select
+                                                      class="select-box"
+                                                      v-model="dataAddVehicle.codeCity"
+                                                      :options="provinceOptions"
+                                                    >
+                                                    </b-form-select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="form-label" for="pay-amount">Giá</label>
+                                                <label class="form-label" for="pay-amount">Trạng thái</label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="dataAddVehicle.price" type="text" class="form-control" id="pay-amount">
+                                                    <b-form-select class="w-100" v-model="dataAddVehicle.status" :options="listStatus"></b-form-select>
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="phone-no">Người bán</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="number" v-model="dataAddVehicle.idVehicleSellers" class="form-control" >
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="phone-no">Năm sản xuất</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="number" v-model="dataAddVehicle.manufactureYear" class="form-control" >
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="pay-amount">Giá bán</label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="dataAddVehicle.price" type="number" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="pay-amount">Số ghế</label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="dataAddVehicle.numberSell" min="1" max="20" type="number" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="pay-amount">Số dặm</label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="dataAddVehicle.odometer" type="number" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="pay-amount">Độ ưu tiên</label>
+                                                <div class="form-control-wrap">
+                                                    <input v-model="dataAddVehicle.priority" type="number" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="pay-amount">Chi tiết</label>
+                                                <div class="form-control-wrap">
+                                                    <vue-editor v-model="dataAddVehicle.description"></vue-editor>
+                                                </div>
+                                            </div>
+
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-lg btn-primary">Xác nhận</button>
                                             </div>
@@ -198,14 +257,8 @@
                                                 <label class="form-label" for="cf-default-textarea">Ảnh phương tiện</label>
                                                 <div class="form-control-wrap">
                                                     <div class="d-flex justify-content-between">
-                                                      <!-- <input
-                                                        @input="onSelectFileAvatar"
-                                                        ref="fileInput"
-                                                        type="file"
-                                                        :disabled="isSelectedImage"
-                                                      /> -->
                                                       <b-form-file
-                                                        @input="onSelectFileAvatar"
+                                                        @input="onSelectFileAvatar()"
                                                         ref="fileInput"
                                                         v-model="avatarImageSelected"
                                                         accept="image/*"
@@ -227,7 +280,7 @@
                                                 <div class="form-control-wrap">
                                                   <div class="d-flex justify-content-between">
                                                       <b-form-file
-                                                        @input="onSelectFileSubAvatar"
+                                                        @input="onSelectFileSubAvatar()"
                                                         ref="fileInputSubavatar"
                                                         v-model="subavatarImageSelected"
                                                         style="max-width: 15rem"
@@ -242,6 +295,27 @@
                                                         </li>
                                                       </ul>
                                                   </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="cf-default-textarea">Ảnh chi tiết của phương tiện</label>
+                                                <div class="form-group row img-list">
+                                                    <ul>
+                                                      <li class="d-flex justify-content-end" v-for="(item, index) in listImageDetails" :key="index">
+                                                        <img :src="item" alt="">
+                                                        <span class="trash-list-image position-absolute" @click="removeImgDetail(index)"><b-icon icon="trash"></b-icon></span>
+                                                      </li>
+                                                      <li>
+                                                        <div class="add-img">
+                                                          <span class="bx bx-plus text-center"></span>
+                                                          <input
+                                                            @input="onSelectListImageDetail()"
+                                                            ref="fileInput"
+                                                            type="file"
+                                                          />
+                                                        </div>
+                                                      </li>
+                                                    </ul>
                                                 </div>
                                             </div>
                                         </form>
@@ -272,20 +346,22 @@ import { VehicleService } from '@/services/vehicle.service'
 import { ConfigService } from '@/services/config.service'
 import { TransportService } from '@/services/transport.service'
 import addVehicle from '../Components/Modal/addListVehicle.vue'
+import { VueEditor } from 'vue2-quill-editor'
 export default {
   data () {
     return {
       dataUser: JSON.parse(localStorage.getItem('userData')),
-      dataListParams: [],
-      configRange: {},
       showModalNoti: false,
       notiSuccess: false,
       messNoti: null,
       showModalAdd: false,
-      search: {
-        page: 1,
-        limit: 20,
-        total: 0
+      dataAddVehicle: {
+        codeTransport: null,
+        codeCity: null,
+        status: null,
+        imagesVehicle: {
+          urls: []
+        }
       },
       transportSelected: null,
       selectedTransport: null,
@@ -302,21 +378,29 @@ export default {
       avatarImage: [],
       isSelectedImage: false,
       avatarImageSelected: null,
-
       subavatarFormData: null,
       subavatarImage: [],
       isSelectedSubImage: false,
       subavatarImageSelected: null,
-      dataAddVehicle: {}
+      provinceOptions: [],
+      listStatus: [
+        { value: null, text: 'Chọn trạng thái' },
+        { value: 'NEW', text: 'Mới' },
+        { value: 'ACTIVE', text: 'Hoạt động' },
+        { value: 'LOCK', text: 'Khoá' },
+      ],
+      listImageDetails: [],
+      listFormDataImageDetails: []
     }
   },
 
   components: {
-    addVehicle
+    addVehicle,
+    VueEditor
   },
 
   async mounted () {
-
+    await this.getListCity()
   },
 
   methods: {
@@ -332,12 +416,16 @@ export default {
       EventBus.$emit('showSidebar', true);
     },
 
-    async submitAddVehicle () {
+    async getListCity () {
       try {
-        await this.uploadImg()
-        await this.uploadSubAvatarImg()
-        const response = await VehicleService.createVehicle(this.dataAddVehicle)
-        console.log(response)
+        const { data } = await ConfigService.getCityList({})
+        const provinceOptions = data.map((e) => {
+          return {
+            value: e.code,
+            text: e.name
+          }
+        })
+        this.provinceOptions = [{ value: null, text: 'Chọn tỉnh thành' }, ...provinceOptions]
       } catch (error) {
         console.log(error)
       }
@@ -426,7 +514,69 @@ export default {
       this.subavatarImage = []
       this.subavatarImageSelected = null
       this.isSelectedSubImage = false
-    }
+    },
+
+    async onSelectListImageDetail () {
+      if (this.listImageDetails && this.listImageDetails.length === 20) {
+        this.$emit('error', 'Chỉ tải lên tối đa 20 ảnh')
+        return
+      }
+      const input = this.$refs.fileInput
+      const files = input.files
+      const fomatUpload = ['image/jpeg', 'image/png']
+      const checkFomat = fomatUpload.includes(input.files[0].type)
+      if (!checkFomat) {
+        alert('Định dạng ảnh không đúng')
+        return
+      }
+
+      const formData = new FormData()
+      formData.append('fileData', files[0])
+      formData.append('folder', 'vehicleListImage')
+      this.listFormDataImageDetails.push(formData)
+
+      if (files && files[0]) {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          this.listImageDetails.push(e.target.result)
+        }
+        reader.readAsDataURL(files[0])
+        this.$emit('input', files[0])
+      }
+    },
+
+    async uploadListImageDetails () {
+      try {
+        for (let index = 0; index < this.listFormDataImageDetails.length; index++) {
+          const element = this.listFormDataImageDetails[index]
+          const res = await ConfigService.uploadImg(element)
+          if (res.code === 1000) {
+            this.dataAddVehicle.imagesVehicle.urls.push(res.data.upload_success_1)
+          }
+        }
+        console.log(this.dataAddVehicle.imagesVehicle.urls);
+      } catch (error) {
+        console.log('add img reader', error)
+      }
+    },
+
+    removeImgDetail (index) {
+      this.listImageDetails.splice(index, 1)
+      this.listFormDataImageDetails.splice(index, 1)
+      this.dataAddVehicle.imagesVehicle.urls.splice(index, 1)
+    },
+
+     async submitAddVehicle () {
+      try {
+        if(this.avatarFormData) await this.uploadImg()
+        if(this.subavatarFormData) await this.uploadSubAvatarImg()
+        if(this.listFormDataImageDetails.length > 0) await this.uploadListImageDetails()
+        const response = await VehicleService.createVehicle(this.dataAddVehicle)
+        console.log(response)
+      } catch (error) {
+        console.log(error)
+      }
+    },
 
   }
 }
@@ -436,6 +586,9 @@ export default {
 .form-avatar {
   max-width: 10rem;
 }
+.form-avatar-item {
+  max-width: 5rem;
+}
 .cancel-image {
   cursor: pointer;
   right: 0;
@@ -444,5 +597,11 @@ export default {
 }
 .cancel-image svg {
   background: #fff;
+}
+.trash-list-image {
+  cursor: pointer;
+  top: 0;
+  margin-right: 10px;
+  color: black;
 }
 </style>
