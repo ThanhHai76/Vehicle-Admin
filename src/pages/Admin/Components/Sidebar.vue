@@ -29,34 +29,29 @@
                             <span class="nk-menu-text">Default Dashboard</span>
                           </router-link>
                       </li><!-- .nk-menu-item -->
-                      
-                      <li class="nk-menu-heading">
-                          <h6 class="overline-title text-primary-alt">Pre-Built Pages</h6>
-                      </li><!-- .nk-menu-heading -->
-                      <li class="nk-menu-item has-sub">
-                          <a href="#" v-b-toggle.my-collapse class="nk-menu-link nk-menu-toggle">
-                              <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span>
-                              <span class="nk-menu-text">Phương tiện</span>
-                          </a>
-                          <b-collapse id="my-collapse">
-                            <ul class="nk-menu-sub">
-                                <li class="nk-menu-item">
-                                  <router-link class="nk-menu-link" to="/admin/config-vehicle">
-                                    <span class="nk-menu-text">Cấu hình phương tiện</span>
-                                  </router-link>
-                                </li>
-                                <li class="nk-menu-item">
-                                  <router-link class="nk-menu-link" to="/admin/list-vehicle">
-                                    <span class="nk-menu-text">Danh sách phương tiện</span>
-                                  </router-link>
-                                </li>
-                                <li class="nk-menu-item">
-                                  <router-link class="nk-menu-link" to="/admin/list-specification">
-                                    <span class="nk-menu-text">Danh sách tham số kỹ thuật</span>
-                                  </router-link>
-                                </li>
-                            </ul><!-- .nk-menu-sub -->
-                          </b-collapse>
+                      <li class="nk-menu-item">
+                          <router-link class="nk-menu-link" to="/admin/config-vehicle">
+                              <span class="nk-menu-icon"><em class="icon ni ni-grid-alt"></em></span>
+                              <span class="nk-menu-text">
+                                Cấu hình phương tiện
+                              </span>
+                          </router-link>
+                      </li><!-- .nk-menu-item -->
+                      <li class="nk-menu-item">
+                          <router-link class="nk-menu-link" to="/admin/list-vehicle">
+                              <span class="nk-menu-icon"><em class="icon ni ni-list"></em></span>
+                              <span class="nk-menu-text">
+                                Danh sách phương tiện
+                              </span>
+                          </router-link>
+                      </li><!-- .nk-menu-item -->
+                      <li class="nk-menu-item">
+                          <router-link class="nk-menu-link" to="/admin/list-specification">
+                              <span class="nk-menu-icon"><em class="icon ni ni-dot-box"></em></span>
+                              <span class="nk-menu-text">
+                                Danh sách tham số kỹ thuật
+                              </span>
+                          </router-link>
                       </li><!-- .nk-menu-item -->
 
                   </ul><!-- .nk-menu -->

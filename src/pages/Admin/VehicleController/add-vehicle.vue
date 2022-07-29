@@ -169,6 +169,42 @@
                                                       class="select-box"
                                                       v-model="dataAddVehicle.codeTransport"
                                                       :options="transportOptions"
+                                                      @change="getListBrand"
+                                                    >
+                                                    </b-form-select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="pay-amount">Hãng</label>
+                                                <div class="form-control-wrap">
+                                                    <b-form-select
+                                                      class="select-box"
+                                                      v-model="dataAddVehicle.company"
+                                                      :options="companyOptions"
+                                                      @change="getListSeries"
+                                                    >
+                                                    </b-form-select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="pay-amount">Series</label>
+                                                <div class="form-control-wrap">
+                                                    <b-form-select
+                                                      class="select-box"
+                                                      v-model="dataAddVehicle.series"
+                                                      :options="seriesOptions"
+                                                      @change="getListModel"
+                                                    >
+                                                    </b-form-select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="pay-amount">Model</label>
+                                                <div class="form-control-wrap">
+                                                    <b-form-select
+                                                      class="select-box"
+                                                      v-model="dataAddVehicle.model"
+                                                      :options="modelOptions"
                                                     >
                                                     </b-form-select>
                                                 </div>
@@ -199,37 +235,49 @@
                                             <div class="form-group">
                                                 <label class="form-label" for="phone-no">Người bán</label>
                                                 <div class="form-control-wrap">
-                                                    <input type="number" v-model="dataAddVehicle.idVehicleSellers" class="form-control" >
+                                                    <input type="text" v-model="dataAddVehicle.idVehicleSellers" class="form-control" >
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="phone-no">Tham số</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" v-model="dataAddVehicle.vehicleParameters.parameters" class="form-control" >
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="phone-no">id tham số</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" v-model="dataAddVehicle.vehicleParameters.transportColumnId" class="form-control" >
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label" for="phone-no">Năm sản xuất</label>
                                                 <div class="form-control-wrap">
-                                                    <input type="number" v-model="dataAddVehicle.manufactureYear" class="form-control" >
+                                                    <input type="number" min="2010" max="2023" v-model.number="dataAddVehicle.manufactureYear" class="form-control" >
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label" for="pay-amount">Giá bán</label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="dataAddVehicle.price" type="number" class="form-control">
+                                                    <input v-model.number="dataAddVehicle.price" type="number" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label" for="pay-amount">Số ghế</label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="dataAddVehicle.numberSell" min="1" max="20" type="number" class="form-control">
+                                                    <input v-model.number="dataAddVehicle.numberSell" min="1" max="20" type="number" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label" for="pay-amount">Số dặm</label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="dataAddVehicle.odometer" type="number" class="form-control">
+                                                    <input v-model.number="dataAddVehicle.odometer" type="number" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label" for="pay-amount">Độ ưu tiên</label>
                                                 <div class="form-control-wrap">
-                                                    <input v-model="dataAddVehicle.priority" type="number" class="form-control">
+                                                    <input v-model.number="dataAddVehicle.priority" type="number" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -310,7 +358,7 @@
                                                           <span class="bx bx-plus text-center"></span>
                                                           <input
                                                             @input="onSelectListImageDetail()"
-                                                            ref="fileInput"
+                                                            ref="fileInputImageDetail"
                                                             type="file"
                                                           />
                                                         </div>
@@ -357,10 +405,17 @@ export default {
       showModalAdd: false,
       dataAddVehicle: {
         codeTransport: null,
+        company: null,
+        series: null,
+        model: null,
         codeCity: null,
         status: null,
         imagesVehicle: {
           urls: []
+        },
+        vehicleParameters: {
+          parameters: null,
+          transportColumnId: null
         }
       },
       transportSelected: null,
@@ -371,9 +426,17 @@ export default {
         { value: 'transport_motorcycle', text: 'Xe máy' },
         { value: 'transport_bicycle', text: 'Xe đạp' },
       ],
+      companyOptions: [
+        { value: null, text: 'Chọn hãng'}
+      ],
+      modelOptions: [
+        { value: null, text: 'Chọn model'}
+      ],
+      seriesOptions: [
+        { value: null, text: 'Chọn Series'}
+      ],
       dataListTransport: [],
       dataSpecificationColumn: [],
-      formData: new FormData(),
       avatarFormData: null,
       avatarImage: [],
       isSelectedImage: false,
@@ -416,6 +479,71 @@ export default {
       EventBus.$emit('showSidebar', true);
     },
 
+    async getListBrand (code) {
+      try {
+        const response = await TransportService.getListTransport({
+          codeParent: code ? code : ''
+        })
+
+        this.companyOptions = [{ value: null, text: 'Chọn hãng'}]
+        this.dataAddVehicle.company = null
+        this.dataAddVehicle.series = null
+        response.data.transportListRes.map((e) => {
+          this.companyOptions.push({ value: e.code, text: e.name })
+        })
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.seriesOptions = [{ value: null, text: 'Chọn Series'}]
+        this.modelOptions = [{ value: null, text: 'Chọn model'}]
+      }
+    },
+
+    async getListSeries (code) {
+      try {
+        this.seriesOptions = []
+        this.dataAddVehicle.series = null
+        this.dataAddVehicle.model = null
+        const response = await TransportService.getListTransport({
+          codeParent: code ? code : ''
+        })
+        const seriesOptions = response.data.transportListRes.map((e) => {
+          return { value: e.code, text: e.name }
+        })
+        if (seriesOptions.length > 0) {
+          seriesOptions.shift()
+          this.seriesOptions = [{ value: null, text: 'Chọn Series' }, ...seriesOptions]
+        } else {
+          this.seriesOptions = [{ value: null, text: 'Chọn Series' }]
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.modelOptions = [{ value: null, text: 'Chọn model'}]
+      }
+    },
+
+    async getListModel (code) {
+      try {
+        this.modelOptions = []
+        this.dataAddVehicle.model = null
+        const response = await TransportService.getListTransport({
+          codeParent: code ? code : ''
+        })
+        const modelOptions = response.data.transportListRes.map((e) => {
+          return { value: e.code, text: e.name }
+        })
+        if (modelOptions.length > 0) {
+          modelOptions.shift()
+          this.modelOptions = [{ value: null, text: 'Chọn Model' }, ...modelOptions]
+        } else {
+          this.modelOptions = [{ value: null, text: 'Chọn Model' }]
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
     async getListCity () {
       try {
         const { data } = await ConfigService.getCityList({})
@@ -435,11 +563,10 @@ export default {
       const input = this.$refs.fileInput
       const files = input.files
 
-      this.formData = new FormData()
-
-      this.formData.append('fileData', files[0])
-      this.formData.append('folder', 'vehicleAvatar')
-      this.avatarFormData = this.formData
+      const formData = new FormData()
+      formData.append('fileData', files[0])
+      formData.append('folder', 'vehicleAvatar')
+      this.avatarFormData = formData
 
       if (files && files[0]) {
         const reader = new FileReader()
@@ -458,7 +585,6 @@ export default {
       const files = input.files
 
       const formData = new FormData()
-
       formData.append('fileData', files[0])
       formData.append('folder', 'vehicleAvatar')
       this.subavatarFormData = formData
@@ -521,7 +647,7 @@ export default {
         this.$emit('error', 'Chỉ tải lên tối đa 20 ảnh')
         return
       }
-      const input = this.$refs.fileInput
+      const input = this.$refs.fileInputImageDetail
       const files = input.files
       const fomatUpload = ['image/jpeg', 'image/png']
       const checkFomat = fomatUpload.includes(input.files[0].type)
@@ -554,7 +680,6 @@ export default {
             this.dataAddVehicle.imagesVehicle.urls.push(res.data.upload_success_1)
           }
         }
-        console.log(this.dataAddVehicle.imagesVehicle.urls);
       } catch (error) {
         console.log('add img reader', error)
       }
@@ -572,7 +697,6 @@ export default {
         if(this.subavatarFormData) await this.uploadSubAvatarImg()
         if(this.listFormDataImageDetails.length > 0) await this.uploadListImageDetails()
         const response = await VehicleService.createVehicle(this.dataAddVehicle)
-        console.log(response)
       } catch (error) {
         console.log(error)
       }
