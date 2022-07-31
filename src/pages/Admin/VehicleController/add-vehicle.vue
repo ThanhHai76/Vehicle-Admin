@@ -205,6 +205,7 @@
                                                       class="select-box"
                                                       v-model="dataAddVehicle.model"
                                                       :options="modelOptions"
+                                                      @change="changeModel"
                                                     >
                                                     </b-form-select>
                                                 </div>
@@ -281,7 +282,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="form-label" for="pay-amount">Chi tiết</label>
+                                                <label class="form-label" for="pay-amount">Chi tiết mô tả</label>
                                                 <div class="form-control-wrap">
                                                     <vue-editor v-model="dataAddVehicle.description"></vue-editor>
                                                 </div>
@@ -481,6 +482,7 @@ export default {
 
     async getListBrand (code) {
       try {
+        this.dataAddVehicle.codeTransport = code
         const response = await TransportService.getListTransport({
           codeParent: code ? code : ''
         })
@@ -501,6 +503,7 @@ export default {
 
     async getListSeries (code) {
       try {
+        this.dataAddVehicle.codeTransport = code
         this.seriesOptions = []
         this.dataAddVehicle.series = null
         this.dataAddVehicle.model = null
@@ -525,6 +528,7 @@ export default {
 
     async getListModel (code) {
       try {
+        this.dataAddVehicle.codeTransport = code
         this.modelOptions = []
         this.dataAddVehicle.model = null
         const response = await TransportService.getListTransport({
@@ -542,6 +546,10 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+
+    async changeModel (code) {
+      this.dataAddVehicle.codeTransport = code
     },
 
     async getListCity () {
