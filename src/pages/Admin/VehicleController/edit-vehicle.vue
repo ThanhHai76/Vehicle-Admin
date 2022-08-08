@@ -149,7 +149,7 @@
                     <div class="nk-block-head">
                         <div class="nk-block-between g-3">
                             <div class="nk-block-head-content">
-                                <h3 class="nk-block-title page-title">Thêm phương tiện</h3>
+                                <h3 class="nk-block-title page-title">Sửa phương tiện</h3>
                             </div><!-- .nk-block-head-content -->
                         </div><!-- .nk-block-between -->
                     </div><!-- .nk-block-head -->
@@ -161,13 +161,13 @@
                                         <div class="card-head">
                                             <h5 class="card-title">Thông tin phương tiện</h5>
                                         </div>
-                                        <form @submit.prevent="submitAddVehicle()">
+                                        <form @submit.prevent="submitEditVehicle()">
                                             <div class="form-group">
                                                 <label class="form-label" for="pay-amount">Phương tiện</label>
                                                 <div class="form-control-wrap">
                                                     <b-form-select
                                                       class="select-box"
-                                                      v-model="dataAddVehicle.vehicleCode"
+                                                      v-model="dataSelectVehicle.vehicleCode"
                                                       :options="transportOptions"
                                                       @change="getListBrand"
                                                     >
@@ -179,7 +179,7 @@
                                                 <div class="form-control-wrap">
                                                     <b-form-select
                                                       class="select-box"
-                                                      v-model="dataAddVehicle.company"
+                                                      v-model="dataSelectVehicle.company"
                                                       :options="companyOptions"
                                                       @change="getListSeries"
                                                     >
@@ -191,7 +191,7 @@
                                                 <div class="form-control-wrap">
                                                     <b-form-select
                                                       class="select-box"
-                                                      v-model="dataAddVehicle.series"
+                                                      v-model="dataSelectVehicle.series"
                                                       :options="seriesOptions"
                                                       @change="getListModel"
                                                     >
@@ -203,7 +203,7 @@
                                                 <div class="form-control-wrap">
                                                     <b-form-select
                                                       class="select-box"
-                                                      v-model="dataAddVehicle.model"
+                                                      v-model="dataSelectVehicle.model"
                                                       :options="modelOptions"
                                                       @change="changeModel"
                                                     >
@@ -388,16 +388,19 @@ export default {
   data () {
     return {
       dataUser: JSON.parse(localStorage.getItem('userData')),
+      transportId: this.$route.query.id,
       showModalNoti: false,
       notiSuccess: false,
       messNoti: null,
       showModalAdd: false,
-      dataAddVehicle: {
+      dataSelectVehicle: {
         vehicleCode: null,
-        codeTransport: null,
         company: null,
         series: null,
         model: null,
+      },
+      dataAddVehicle: {
+        codeTransport: null,
         codeCity: null,
         status: null,
         imagesVehicle: {
@@ -454,6 +457,7 @@ export default {
 
   async mounted () {
     await this.getListCity()
+    await this.fetchData()
   },
 
   methods: {
@@ -469,6 +473,17 @@ export default {
       EventBus.$emit('showSidebar', true);
     },
 
+    async fetchData () {
+      try {
+        const { data } = await TransportService.getDetailTransport({
+          id: this.transportId
+        })
+        this.dataAddVehicle = data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
     async getListBrand (code) {
       try {
         this.dataAddVehicle.codeTransport = code
@@ -477,8 +492,8 @@ export default {
         })
 
         this.companyOptions = [{ value: null, text: 'Chọn hãng'}]
-        this.dataAddVehicle.company = null
-        this.dataAddVehicle.series = null
+        this.dataSelectVehicle.company = null
+        this.dataSelectVehicle.series = null
         response.data.transportListRes.map((e) => {
           this.companyOptions.push({ value: e.code, text: e.name })
         })
@@ -494,8 +509,8 @@ export default {
       try {
         this.dataAddVehicle.codeTransport = code
         this.seriesOptions = []
-        this.dataAddVehicle.series = null
-        this.dataAddVehicle.model = null
+        this.dataSelectVehicle.series = null
+        this.dataSelectVehicle.model = null
         const response = await TransportService.getListTransport({
           codeParent: code ? code : ''
         })
@@ -519,7 +534,7 @@ export default {
       try {
         this.dataAddVehicle.codeTransport = code
         this.modelOptions = []
-        this.dataAddVehicle.model = null
+        this.dataSelectVehicle.model = null
         const response = await TransportService.getListTransport({
           codeParent: code ? code : ''
         })
@@ -688,16 +703,16 @@ export default {
       this.dataAddVehicle.imagesVehicle.urls.splice(index, 1)
     },
 
-     async submitAddVehicle () {
+    async submitEditVehicle () {
       try {
         if(this.avatarFormData) await this.uploadImg()
         if(this.subavatarFormData) await this.uploadSubAvatarImg()
         if(this.listFormDataImageDetails.length > 0) await this.uploadListImageDetails()
-        const response = await VehicleService.createVehicle(this.dataAddVehicle)
+        const response = await VehicleService.editVehicle(this.dataAddVehicle)
         if (response.code === 1000) {
           this.showModalNoti = true
           this.notiSuccess = true
-          this.messNoti = 'Tạo mới phương tiện thành công'
+          this.messNoti = 'Cập nhật phương tiện thành công'
         } else {
           this.showModalNoti = true
           this.notiSuccess = false

@@ -259,11 +259,8 @@
                                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <ul class="link-list-opt no-bdr">
-                                                                    <li><a href="#"><em class="icon ni ni-focus"></em><span>Quick View</span></a></li>
-                                                                    <li><a href="#"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
-                                                                    <li class="divider"></li>
-                                                                    <li><a href="#"><em class="icon ni ni-shield-star"></em><span>Reset Pass</span></a></li>
-                                                                    <li><a href="#"><em class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a></li>
+                                                                    <li><a href="javascript:void(0)" @click="navigateToEditVehicle(item.id)"><em class="icon ni ni-edit"></em><span>Sửa phương tiện</span></a></li>
+                                                                    <li><a href="javascript:void(0)" @click="editSpecification(item.id)"><em class="icon ni ni-eye"></em><span>Sửa thông số kỹ thuật</span></a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -438,6 +435,14 @@ export default {
 
     navigateToAddVehicle () {
       this.$router.push('add-vehicle')
+    },
+
+    navigateToEditVehicle (itemId) {
+      this.$router.push(`/admin/edit-vehicle?id=${itemId}`)
+    },
+
+    editSpecification (itemId) {
+      this.$router.push(`/admin/edit-specification?id=${itemId}`)
     }
   }
 }

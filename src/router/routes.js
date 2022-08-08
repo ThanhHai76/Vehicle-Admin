@@ -25,8 +25,11 @@ import createTransport from '@/pages/Admin/TransportController/create-transport.
 import configVehicle from '@/pages/Admin/VehicleController/config-vehicle.vue'
 import listVehicle from '@/pages/Admin/VehicleController/list-vehicle.vue'
 import addVehicle from '@/pages/Admin/VehicleController/add-vehicle.vue'
+import editVehicle from '@/pages/Admin/VehicleController/edit-vehicle.vue'
+
 import listSpecification from '@/pages/Admin/DetailController/specificationsList.vue'
 import detailSpecification from '@/pages/Admin/DetailController/specificationsDetail.vue'
+import editSpecification from '@/pages/Admin/DetailController/editSpecification.vue'
 
 export const routes = [
   {
@@ -143,6 +146,12 @@ export const routes = [
     component: addVehicle,
     meta: { isAuth: true, title: `${DOMAIN_TITLE} | Thêm phương tiện`, layout: 'admin' }
   },
+  {
+    path: '/admin/edit-vehicle',
+    name: 'editVehicle',
+    component: editVehicle,
+    meta: { isAuth: true, title: `${DOMAIN_TITLE} | Sửa phương tiện`, layout: 'admin' }
+  },
 
   {
     path: '/admin/list-specification',
@@ -155,6 +164,12 @@ export const routes = [
     name: 'detailSpecification',
     component: detailSpecification,
     meta: { isAuth: true, title: `${DOMAIN_TITLE} | Chi tiết thông số kỹ thuật`, layout: 'admin' }
+  },
+  {
+    path: '/admin/edit-specification',
+    name: 'editSpecification',
+    component: editSpecification,
+    meta: { isAuth: true, title: `${DOMAIN_TITLE} | Sửa thông số kỹ thuật`, layout: 'admin' }
   },
   
 ]
