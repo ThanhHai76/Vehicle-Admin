@@ -162,7 +162,7 @@
                                             <h5 class="card-title">Thông tin phương tiện</h5>
                                         </div>
                                         <form @submit.prevent="submitEditVehicle()">
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
                                                 <label class="form-label" for="pay-amount">Phương tiện</label>
                                                 <div class="form-control-wrap">
                                                     <b-form-select
@@ -209,7 +209,7 @@
                                                     >
                                                     </b-form-select>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="form-group">
                                                 <label class="form-label" for="full-name">Tên</label>
                                                 <div class="form-control-wrap">
@@ -277,7 +277,7 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <button type="submit" class="btn btn-lg btn-primary">Xác nhận</button>
+                                                <button @click="submitEditVehicle" type="submit" class="btn btn-lg btn-primary">Xác nhận</button>
                                             </div>
                                         </form>
                                     </div>
@@ -304,9 +304,9 @@
                                                         :disabled="isSelectedImage"
                                                       ></b-form-file>
                                                       <ul class="form-avatar">
-                                                        <li v-for="(item, index) in avatarImage" :key="index">
+                                                        <li>
                                                           <span @click="removeAvatarImg" class="cancel-image position-absolute"><b-icon icon="x-square"></b-icon></span>
-                                                          <img :src="item" alt="">
+                                                          <img :src="avatarImage" alt="">
                                                         </li>
                                                       </ul>
                                                     </div>
@@ -326,9 +326,9 @@
                                                         :disabled="isSelectedSubImage"
                                                       ></b-form-file>
                                                       <ul class="form-avatar">
-                                                        <li v-for="(item, index) in subavatarImage" :key="index">
+                                                        <li>
                                                           <span @click="removeSubAvatarImg" class="cancel-image position-absolute"><b-icon icon="x-square"></b-icon></span>
-                                                          <img :src="item" alt="">
+                                                          <img :src="subavatarImage" alt="">
                                                         </li>
                                                       </ul>
                                                   </div>
@@ -406,10 +406,7 @@ export default {
         imagesVehicle: {
           urls: []
         },
-        vehicleParameters: {
-          parameters: null,
-          transportColumnId: null
-        }
+        description: ''
       },
       transportSelected: null,
       selectedTransport: null,
@@ -431,11 +428,11 @@ export default {
       dataListTransport: [],
       dataSpecificationColumn: [],
       avatarFormData: null,
-      avatarImage: [],
+      avatarImage: null,
       isSelectedImage: false,
       avatarImageSelected: null,
       subavatarFormData: null,
-      subavatarImage: [],
+      subavatarImage: null,
       isSelectedSubImage: false,
       subavatarImageSelected: null,
       provinceOptions: [],
@@ -479,6 +476,11 @@ export default {
           id: this.transportId
         })
         this.dataAddVehicle = data
+        this.avatarImage = this.dataAddVehicle.avatarImage
+        this.subAvatarImage = this.dataAddVehicle.subAvatar
+        this.listImageDetails = this.dataAddVehicle.detailImages.images
+        this.dataAddVehicle.description = this.decodeB64toUTF8(this.dataAddVehicle.description)
+        console.log(this.decodeB64toUTF8(this.dataAddVehicle.description))
       } catch (error) {
         console.log(error)
       }
@@ -583,7 +585,7 @@ export default {
       if (files && files[0]) {
         const reader = new FileReader()
         reader.onload = (e) => {
-          this.avatarImage = [e.target.result]
+          this.avatarImage = e.target.result
         }
         reader.readAsDataURL(files[0])
         this.$emit('input', files[0])
@@ -604,7 +606,7 @@ export default {
       if (files && files[0]) {
         const reader = new FileReader()
         reader.onload = (e) => {
-          this.subavatarImage = [e.target.result]
+          this.subavatarImage = e.target.result
         }
         reader.readAsDataURL(files[0])
         this.$emit('input', files[0])
@@ -643,13 +645,13 @@ export default {
     },
 
     removeAvatarImg () {
-      this.avatarImage = []
+      this.avatarImage = null
       this.avatarImageSelected = null
       this.isSelectedImage = false
     },
 
     removeSubAvatarImg () {
-      this.subavatarImage = []
+      this.subavatarImage = null
       this.subavatarImageSelected = null
       this.isSelectedSubImage = false
     },
@@ -703,11 +705,20 @@ export default {
       this.dataAddVehicle.imagesVehicle.urls.splice(index, 1)
     },
 
+    encodeUTF8toB64 (string) {
+      return window.btoa(unescape(encodeURIComponent(string)))
+    },
+
+    decodeB64toUTF8 (string) {
+      return decodeURIComponent(escape(window.atob(string)))
+    },
+
     async submitEditVehicle () {
       try {
         if(this.avatarFormData) await this.uploadImg()
         if(this.subavatarFormData) await this.uploadSubAvatarImg()
         if(this.listFormDataImageDetails.length > 0) await this.uploadListImageDetails()
+        this.dataAddVehicle.description = this.encodeUTF8toB64(this.dataAddVehicle.description)
         const response = await VehicleService.editVehicle(this.dataAddVehicle)
         if (response.code === 1000) {
           this.showModalNoti = true

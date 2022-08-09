@@ -688,11 +688,20 @@ export default {
       this.dataAddVehicle.imagesVehicle.urls.splice(index, 1)
     },
 
+    encodeUTF8toB64 (string) {
+      return window.btoa(unescape(encodeURIComponent(string)))
+    },
+
+    decodeB64toUTF8 (string) {
+      return decodeURIComponent(escape(window.atob( string)))
+    },
+
      async submitAddVehicle () {
       try {
         if(this.avatarFormData) await this.uploadImg()
         if(this.subavatarFormData) await this.uploadSubAvatarImg()
         if(this.listFormDataImageDetails.length > 0) await this.uploadListImageDetails()
+        this.dataAddVehicle.description = this.encodeUTF8toB64(this.dataAddVehicle.description)
         const response = await VehicleService.createVehicle(this.dataAddVehicle)
         if (response.code === 1000) {
           this.showModalNoti = true
