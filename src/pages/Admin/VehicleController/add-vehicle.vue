@@ -339,8 +339,10 @@
                                                 <div class="form-group row img-list">
                                                     <ul>
                                                       <li class="d-flex justify-content-end" v-for="(item, index) in listImageDetails" :key="index">
-                                                        <img :src="item" alt="">
-                                                        <span class="trash-list-image position-absolute" @click="removeImgDetail(index)"><b-icon icon="trash"></b-icon></span>
+                                                        <a href="javascript:void(0)">
+                                                          <img :src="item" alt="">
+                                                          <span class="trash-list-image position-absolute" @click="removeImgDetail(index)"><b-icon icon="trash"></b-icon></span>
+                                                        </a>
                                                       </li>
                                                       <li>
                                                         <div class="add-img">
@@ -740,7 +742,6 @@ export default {
 .trash-list-image {
   cursor: pointer;
   top: 0;
-  margin-right: 10px;
   color: black;
 }
 </style>

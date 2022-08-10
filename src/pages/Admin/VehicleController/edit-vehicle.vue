@@ -301,7 +301,7 @@
                                                         accept="image/*"
                                                         style="max-width: 15rem"
                                                         placeholder="Chọn ảnh phương tiện"
-                                                        :disabled="isSelectedImage"
+                                                        :disabled="isSelectedImage || avatarImage"
                                                       ></b-form-file>
                                                       <ul class="form-avatar">
                                                         <li>
@@ -323,12 +323,12 @@
                                                         style="max-width: 15rem"
                                                         accept="image/*"
                                                         placeholder="Chọn ảnh phụ"
-                                                        :disabled="isSelectedSubImage"
+                                                        :disabled="isSelectedSubImage || dataAddVehicle.subAvatar"
                                                       ></b-form-file>
                                                       <ul class="form-avatar">
                                                         <li>
                                                           <span @click="removeSubAvatarImg" class="cancel-image position-absolute"><b-icon icon="x-square"></b-icon></span>
-                                                          <img :src="subavatarImage" alt="">
+                                                          <img :src="dataAddVehicle.subAvatar" alt="">
                                                         </li>
                                                       </ul>
                                                   </div>
@@ -339,8 +339,10 @@
                                                 <div class="form-group row img-list">
                                                     <ul>
                                                       <li class="d-flex justify-content-end" v-for="(item, index) in listImageDetails" :key="index">
-                                                        <img :src="item" alt="">
-                                                        <span class="trash-list-image position-absolute" @click="removeImgDetail(index)"><b-icon icon="trash"></b-icon></span>
+                                                        <a href="javascript:void(0)">
+                                                          <img :src="item" alt="">
+                                                          <span class="trash-list-image position-absolute" @click="removeImgDetail(index)"><b-icon icon="trash"></b-icon></span>
+                                                        </a>
                                                       </li>
                                                       <li>
                                                         <div class="add-img">
@@ -476,11 +478,10 @@ export default {
           id: this.transportId
         })
         this.dataAddVehicle = data
-        this.avatarImage = this.dataAddVehicle.avatarImage
-        this.subAvatarImage = this.dataAddVehicle.subAvatar
+        this.avatarImage = this.dataAddVehicle.avatar
+        // this.subAvatarImage = this.dataAddVehicle.subAvatar
         this.listImageDetails = this.dataAddVehicle.detailImages.images
         this.dataAddVehicle.description = this.decodeB64toUTF8(this.dataAddVehicle.description)
-        console.log(this.decodeB64toUTF8(this.dataAddVehicle.description))
       } catch (error) {
         console.log(error)
       }
@@ -606,7 +607,8 @@ export default {
       if (files && files[0]) {
         const reader = new FileReader()
         reader.onload = (e) => {
-          this.subavatarImage = e.target.result
+          // this.subavatarImage = e.target.result
+          this.dataAddVehicle.subAvatar = e.target.result
         }
         reader.readAsDataURL(files[0])
         this.$emit('input', files[0])
@@ -651,7 +653,7 @@ export default {
     },
 
     removeSubAvatarImg () {
-      this.subavatarImage = null
+      this.dataAddVehicle.subAvatar = null
       this.subavatarImageSelected = null
       this.isSelectedSubImage = false
     },
@@ -757,7 +759,6 @@ export default {
 .trash-list-image {
   cursor: pointer;
   top: 0;
-  margin-right: 10px;
   color: black;
 }
 </style>
