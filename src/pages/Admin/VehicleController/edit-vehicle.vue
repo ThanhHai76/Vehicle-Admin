@@ -385,7 +385,8 @@ import { VehicleService } from '@/services/vehicle.service'
 import { ConfigService } from '@/services/config.service'
 import { TransportService } from '@/services/transport.service'
 import addVehicle from '../Components/Modal/addListVehicle.vue'
-import { VueEditor } from 'vue2-quill-editor'
+// import { VueEditor } from 'vue2-quill-editor'
+import { VueEditor } from "vue2-editor";
 export default {
   data () {
     return {
@@ -481,7 +482,8 @@ export default {
         this.avatarImage = this.dataAddVehicle.avatar
         // this.subAvatarImage = this.dataAddVehicle.subAvatar
         this.listImageDetails = this.dataAddVehicle.detailImages.images
-        this.dataAddVehicle.description = this.decodeB64toUTF8(this.dataAddVehicle.description)
+        // this.dataAddVehicle.description = this.decodeB64toUTF8(this.dataAddVehicle.description)
+        this.dataAddVehicle.description = '<p>Bán xe <strong>KIA NEW MORNING 2021 - GT LINE</strong>&nbsp;mới 100%.</p>'
       } catch (error) {
         console.log(error)
       }

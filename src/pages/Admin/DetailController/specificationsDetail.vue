@@ -149,16 +149,15 @@
                     <div class="nk-block-head">
                         <div class="nk-block-between g-3">
                             <div class="nk-block-head-content">
-                                <h3 class="nk-block-title page-title">Danh sách các thông số</h3>
+                                <h3 class="nk-block-title page-title">Danh sách chi tiết</h3>
                             </div><!-- .nk-block-head-content -->
                             <div class="nk-block-head-content">
                                 <div class="toggle-wrap nk-block-tools-toggle">
                                     <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
                                     <div class="toggle-expand-content" data-content="pageMenu">
-                                        <ul class="nk-block-tools justify-between g-3">
-                                            <!-- <li><a href="#" class="btn btn-white btn-outline-light"><em class="icon ni ni-upload-cloud"></em><span>Import</span></a></li> -->
+                                        <!-- <ul class="nk-block-tools justify-between g-3">
                                             <li><a href="#" data-toggle="modal" @click="showAddSpecification()" data-target="#addPayment" class="btn text-white bg-primary"><em class="icon ni ni-plus"></em><span>Thêm thông số</span></a></li>
-                                        </ul>
+                                        </ul> -->
                                     </div>
                                 </div><!-- .toggle-wrap -->
                             </div><!-- .nk-block-head-content -->
@@ -166,7 +165,7 @@
                     </div><!-- .nk-block-head -->
                     <div class="nk-block">
                         <div class="card card-bordered card-stretch">
-                            <div class="card-title-group mt-3">
+                            <div class="card-title-group">
                                   <div class="card-tools">
                                       <div class="form-inline">
                                           <div class="form-wrap ml-2">
@@ -177,15 +176,16 @@
                               </div><!-- .card-title-group -->
 
                             <div class="card-inner-group">
-                                <div class="card-inner position-relative card-tools-toggle">
+                                <div class="card-inner position-relative">
                                   <div class="card-title-group">
                                       <div class="card-tools d-flex justify-between w-100">
                                           <div class="form-inline">
-
+                                            <h5 class="nk-block-title"> <b-icon icon="gear" font-scale="1"></b-icon> {{ $route.query.code | transformNameParameter(listParameter) }}</h5>
                                           </div><!-- .form-inline -->
+                                          <button type="button" class="btn btn-outline-secondary" @click="$router.push('/admin/list-specification')"> <b-icon class="mr-1" icon="arrow-left"></b-icon> Quay lại</button>
                                       </div><!-- .card-tools -->
                                   </div><!-- .card-title-group -->
-                                  <div class="card-search search-wrap" data-search="search">
+                                  <!-- <div class="card-search search-wrap" data-search="search">
                                       <div class="card-body">
                                           <div class="search-content">
                                               <a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
@@ -193,7 +193,7 @@
                                               <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
                                           </div>
                                       </div>
-                                  </div><!-- .card-search -->
+                                  </div> -->
                               </div><!-- .card-inner -->
                                 
                                 <div class="card-inner p-0">
@@ -205,6 +205,7 @@
                                             <div class="nk-tb-col">
                                               <span class="sub-text">Tên thông số</span>
                                             </div>
+                                            <div class="nk-tb-col tb-col-mb"><span class="sub-text">Giá trị mặc định</span></div>
                                             <div class="nk-tb-col tb-col-mb"><span class="sub-text">Ngày tạo</span></div>
                                             <div class="nk-tb-col tb-col-md"><span class="sub-text">Ngày cập nhật</span></div>
                                             <div class="nk-tb-col tb-col-md"><span class="sub-text">Trạng thái</span></div>
@@ -224,10 +225,13 @@
                                                 </div>
                                             </div>
                                             <div class="nk-tb-col tb-col-mb">
+                                                <span class="tb-amount"> {{ item.valueDefault }} </span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-mb">
                                                 <span class="tb-amount"> {{ item.dateCreate | formatDateTime1 }} </span>
                                             </div>
-                                            <div class="nk-tb-col tb-col-md">
-                                                <span> {{ item.dateModified | formatDateTime1 }} </span>
+                                            <div class="nk-tb-col tb-col-mb">
+                                                <span class="tb-amount"> {{ item.dateModified | formatDateTime1 }} </span>
                                             </div>
                                             <div class="nk-tb-col tb-col-md text-center">
                                                 <span class="tb-status text-success">{{ item.status }}</span>
@@ -331,13 +335,20 @@ export default {
         { value: 'transport_motorcycle', text: 'Xe máy' },
         { value: 'transport_bicycle', text: 'Xe đạp' },
       ],
+      listParameter: [
+        { id: 'parameter-base-car', text: 'Thông số cơ bản' },
+        { id: 'parameter-technique-car', text: 'Thông số kỹ thuật' },
+        { id: 'parameter-security-car', text: 'Thiết bị An toàn' },
+        { id: 'parameter-standard-car', text: 'Thiết bị tiêu chuẩn' },
+      ],
       dataListTransport: [],
       dataSpecificationColumn: [],
       editData: {
         id: null,
         name: null,
         icon: null,
-        priority: null
+        priority: null,
+        status: null
       }
     }
   },
@@ -348,6 +359,14 @@ export default {
 
   async mounted () {
     await this.getListTransportColumn()
+  },
+
+  filters: {
+    transformNameParameter (code, listParameter) {
+      const parameters = listParameter.filter((e) => code === e.id)[0]
+      console.log(parameters.text)
+      return (code && parameters) ? parameters.text : ''
+    }
   },
 
   methods: {
@@ -382,7 +401,8 @@ export default {
         id: null,
         name: null,
         icon: null,
-        priority: null
+        priority: null,
+        status: null
       }
     },
 

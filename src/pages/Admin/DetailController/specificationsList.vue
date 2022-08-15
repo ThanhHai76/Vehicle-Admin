@@ -208,7 +208,7 @@
                                             <div class="nk-tb-col">
                                                 <div class="user-card justify-content-center">
                                                     <div class="user-info">
-                                                      <a href="javascript:void(0)" @click="navigateToDetail(item.id)">
+                                                      <a href="javascript:void(0)" @click="navigateToDetail(item)">
                                                         <span class="tb-lead text-blue">{{ item.name }}</span>
                                                       </a>
                                                     </div>
@@ -361,8 +361,8 @@ export default {
       }
     },
 
-    navigateToDetail (parameterId) {
-      this.$router.push(`/admin/list-parts/?transportId=${this.transportSelectedId}&parameterId=${parameterId}`)
+    navigateToDetail (parameterItem) {
+      this.$router.push(`/admin/list-parts/?transportId=${this.transportSelectedId}&parameterId=${parameterItem.id}&code=${parameterItem.code}`)
     },
 
     async getListTransportColumn (parameterId) {

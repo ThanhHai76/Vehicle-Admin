@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-modal id="modalAdd" v-model="showModalAdd" centered size="lg" hide-footer>
-      <template #modal-header="{ }">
+    <b-modal :title="title" header-bg-variant="light" id="modalAdd" v-model="showModalAdd" centered hide-footer>
+      <!-- <template #modal-header="{ }">
         <h5>{{ title }}</h5>
         <button
           type="button"
@@ -10,11 +10,11 @@
         >
           <span aria-hidden="true">&times;</span>
         </button>
-      </template>
+      </template> -->
       <div>
           <form action="#" @submit.prevent="submitAction">
             <div class="row g-gs">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group mt-2">
                         <label class="form-label" for="add-amount">Tên</label>
                         <div class="form-control-wrap">
@@ -38,6 +38,12 @@
                         <label class="form-label" for="add-amount">Trạng thái</label>
                         <div class="form-control-wrap">
                             <b-form-select class="w-100" v-model="editData.status" :options="listStatus"></b-form-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="add-amount">Giá trị mặc định</label>
+                        <div class="form-control-wrap">
+                            <input type="text" v-model="editData.valueDefault" class="form-control" placeholder="Nhập giá trị mặc định">
                         </div>
                     </div>
                 </div>
@@ -87,7 +93,8 @@ export default {
           name: this.editData.name,
           icon: this.editData.icon,
           priority: this.editData.priority,
-          status: this.editData.status
+          status: this.editData.status,
+          valueDefault: this.editData.valueDefault
         }
         // const response = await TransportService.actionTransport(data)
         const response = await TransportService.editTransportColumn(data)
