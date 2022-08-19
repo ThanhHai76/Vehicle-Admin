@@ -31,6 +31,8 @@ import listSpecification from '@/pages/Admin/DetailController/specificationsList
 import detailSpecification from '@/pages/Admin/DetailController/specificationsDetail.vue'
 import editSpecification from '@/pages/Admin/DetailController/editSpecification.vue'
 
+import listShowroom from '@/pages/Admin/SellerController/listShowroom.vue'
+
 export const routes = [
   {
     path: '/',
@@ -170,6 +172,13 @@ export const routes = [
     name: 'editSpecification',
     component: editSpecification,
     meta: { isAuth: true, title: `${DOMAIN_TITLE} | Sửa thông số kỹ thuật`, layout: 'admin' }
+  },
+
+  {
+    path: '/admin/list-showroom',
+    name: 'listShowroom',
+    component: listShowroom,
+    meta: { isAuth: true, title: `${DOMAIN_TITLE} | Danh sách showroom`, layout: 'admin' }
   },
   
 ]

@@ -53,6 +53,14 @@
                               </span>
                           </router-link>
                       </li><!-- .nk-menu-item -->
+                       <li class="nk-menu-item">
+                          <router-link class="nk-menu-link" to="/admin/list-showroom">
+                              <span class="nk-menu-icon"><em class="icon ni ni-list"></em></span>
+                              <span class="nk-menu-text">
+                                Danh sách showroom
+                              </span>
+                          </router-link>
+                      </li><!-- .nk-menu-item -->
 
                   </ul><!-- .nk-menu -->
               </div><!-- .nk-sidebar-menu -->
