@@ -31,7 +31,7 @@ export class AuthService {
       const response = await axios.post(`${API_URL}/auth/signup`, authData)
       return new ResponseWrapper(response, response.data)
     } catch (error) {
-      throw new ErrorWrapper(error)
+      return error
     }
   }
 

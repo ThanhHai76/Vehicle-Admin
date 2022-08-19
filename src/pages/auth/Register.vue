@@ -9,9 +9,9 @@
                 <div class="nk-content ">
                     <div class="nk-block nk-block-middle nk-auth-body wide-xs">
                         <div class="brand-logo pb-4 text-center">
-                            <a href="html/index.html" class="logo-link">
-                                <img class="logo-light logo-img logo-img-lg" src="@/assets/auth-css/images/logo.png" srcset="@/assets/auth-css/images/logo2x.png 2x" alt="logo">
-                                <img class="logo-dark logo-img logo-img-lg" src="@/assets/auth-css/images/logo-dark.png" srcset="@/assets/auth-css/images/logo-dark2x.png 2x" alt="logo-dark">
+                            <a href="#" class="logo-link">
+                                <img class="logo-light logo-img logo-img-lg" src="@/assets/images/logoxesang.png" srcset="@/assets/auth-css/images/logo2x.png 2x" alt="logo">
+                                <img class="logo-dark logo-img logo-img-lg" src="@/assets/images/logoxesang.png" srcset="@/assets/auth-css/images/logo-dark2x.png 2x" alt="logo-dark">
                             </a>
                         </div>
                         <div class="card card-bordered">
@@ -28,13 +28,37 @@
                                     <div class="form-group">
                                         <label class="form-label" for="name">Tên</label>
                                         <div class="form-control-wrap">
-                                            <input v-model="authData.username" type="text" class="form-control form-control-lg" id="name" placeholder="Nhập tên">
+                                            <input v-model="authData.username" type="text" class="form-control form-control-lg" placeholder="Nhập tên" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="fullName">Tên đầy đủ</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="authData.fullName" type="text" class="form-control form-control-lg" placeholder="Nhập tên đầy đủ">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="email">Email</label>
                                         <div class="form-control-wrap">
-                                            <input v-model="authData.email" type="email" class="form-control form-control-lg" id="email" placeholder="Nhập email">
+                                            <input v-model="authData.email" type="email" class="form-control form-control-lg" placeholder="Nhập email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Số điện thoại</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="authData.phone" type="number" class="form-control form-control-lg" placeholder="Nhập số điện thoại">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Địa chỉ</label>
+                                        <div class="form-control-wrap">
+                                            <input v-model="authData.address" type="text" class="form-control form-control-lg" placeholder="Nhập số điện thoại">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Loại user</label>
+                                        <div class="form-control-wrap">
+                                            <b-form-select class="w-100" v-model="authData.typeUser" :options="listTypeUser"></b-form-select>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -46,7 +70,19 @@
                                                 <em v-if="typePassword === 'password'" class="passcode-icon icon-show icon ni ni-eye"></em>
                                                 <em v-else class="passcode-icon icon-show icon ni ni-eye-off"></em>
                                             </a>
-                                            <input v-model="authData.password" :type="typePassword" class="form-control form-control-lg" id="password" placeholder="Nhập mật khẩu">
+                                            <input v-model="authData.passwd" :type="typePassword" class="form-control form-control-lg" id="password" placeholder="Nhập mật khẩu">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="password">Nhập lại mật khẩu</label>
+                                        <div class="form-control-wrap">
+                                            <a href="javascript:void(0)" @click="typePassword === 'password' ? typePassword = 'text' : typePassword = 'password'"
+                                              class="form-icon form-icon-right passcode-switch lg" data-target="password"
+                                            >
+                                                <em v-if="typePassword === 'password'" class="passcode-icon icon-show icon ni ni-eye"></em>
+                                                <em v-else class="passcode-icon icon-show icon ni ni-eye-off"></em>
+                                            </a>
+                                            <input v-model="authData.rewritePassword" :type="typePassword" @input="checkRewritePassword" class="form-control form-control-lg" id="password" placeholder="Nhập mật khẩu">
                                         </div>
                                     </div>
                                     <p class="text-center text-danger mt-2 fs-6" v-show="messageErr">{{ messageErr }}</p>
@@ -72,52 +108,11 @@
                         <div class="container wide-lg">
                             <div class="row g-3">
                                 <div class="col-lg-6 order-lg-last">
-                                    <ul class="nav nav-sm justify-content-center justify-content-lg-end">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Terms & Condition</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Privacy Policy</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Help</a>
-                                        </li>
-                                        <li class="nav-item dropup">
-                                            <a class="dropdown-toggle dropdown-indicator has-indicator nav-link" data-toggle="dropdown" data-offset="0,10"><span>English</span></a>
-                                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                                                <ul class="language-list">
-                                                    <li>
-                                                        <a href="#" class="language-item">
-                                                            <img src="@/assets/auth-css/images/flags/english.png" alt="" class="language-flag">
-                                                            <span class="language-name">English</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="language-item">
-                                                            <img src="@/assets/auth-css/images/flags/spanish.png" alt="" class="language-flag">
-                                                            <span class="language-name">Español</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="language-item">
-                                                            <img src="@/assets/auth-css/images/flags/french.png" alt="" class="language-flag">
-                                                            <span class="language-name">Français</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="language-item">
-                                                            <img src="@/assets/auth-css/images/flags/turkey.png" alt="" class="language-flag">
-                                                            <span class="language-name">Türkçe</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                    </ul>
+    
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="nk-block-content text-center text-lg-left">
-                                        <p class="text-soft">&copy; 2021 CryptoLite. All Rights Reserved.</p>
+                                        <p class="text-soft">&copy; 2022 Sanxesang. All Rights Reserved.</p>
                                     </div>
                                 </div>
                             </div>
@@ -141,24 +136,34 @@ export default {
     return {
       authData: {
         username: null,
-        password: null,
-        email: null
+        fullName: null,
+        passwd: null,
+        email: null,
+        phone: null,
+        address: null,
+        typeUser: null,
+        rewritePassword: null
       },
       messageErr: null,
-      typePassword: 'password'
+      typePassword: 'password',
+      listTypeUser: [
+        { value: null, text: 'Chọn loại user' },
+        { value: 'SALON', text: 'Salon' },
+        { value: 'SHOWROOM', text: 'Showroom' },
+        { value: 'INDIVIDUAL', text: 'Cá nhân' },
+      ]
     }
   },
   methods: {
     async register () {
       try {
+        if (!this.authData.username || !this.authData.passwd) return
 
-        if (!this.authData.username || !this.authData.password) return
-
-        const { data } = await AuthService.signUp({
-          username: this.authData.username,
-          email: this.authData.email,
-          password: this.authData.password
-        })
+        if (this.authData.rewritePassword !== this.authData.passwd) {
+          this.messageErr = 'Mật khẩu không khớp'
+          return
+        }
+        const { data } = await AuthService.signUp(this.authData)
         if (data.code === 1000) {
           this.$bvToast.toast('Đăng ký tài khoản thành công', {
             title: `Thông báo`,
@@ -175,6 +180,14 @@ export default {
         // this.$refs.observer.setErrors({
         //   email: [error.message]
         // })
+        console.log(error.response)
+      }
+    },
+    checkRewritePassword () {
+      if (this.authData.rewritePassword !== this.authData.passwd) {
+        this.messageErr = 'Mật khẩu không khớp'
+      } else {
+        this.messageErr = null
       }
     },
     goBackHome () {
@@ -185,5 +198,8 @@ export default {
 </script>
 
 <style scoped>
-
+.logo-link {
+  background: radial-gradient(black, transparent);
+  border-radius: 10px;
+}
 </style>
