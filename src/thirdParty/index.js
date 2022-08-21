@@ -10,6 +10,7 @@ var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0
 const regexUsername = /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂ ưăạảấầẩẫậắằẳẵặẹếẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/
 const regexNumber = /^[0-9]+$/
 const regexMobile = /^((09|03|07|08|05)+([0-9]{8})\b)$/
+const regexPhone = /^((84|0[1-9])+([0-9]{8})\b)$/
 // const regexMobile = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
 
 // install rules
@@ -103,6 +104,16 @@ extend('minMAxAgentName', value => {
 
 extend('regexMobile', value => {
   const check = regexMobile.test(String(value).toLowerCase())
+  if (!check) {
+    return '{_field_} không đúng định dạng'
+  }
+  if (check) {
+    return true
+  }
+})
+
+extend('regexPhone', value => {
+  const check = regexPhone.test(String(value).toLowerCase())
   if (!check) {
     return '{_field_} không đúng định dạng'
   }

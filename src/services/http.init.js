@@ -21,6 +21,7 @@ export class Http {
     if (this.isAuth) {
       const token = 'Bearer ' + TOKEN_INSIDE
       this.instance.interceptors.request.use(request => {
+        const tokenLogin = localStorage.getItem('token')
         if (AuthService.getBearer()) request.headers.Authorization = AuthService.getBearer()
         else request.headers.Authorization = token
         // if access token expired and refreshToken is exist >> go to API and get new access token

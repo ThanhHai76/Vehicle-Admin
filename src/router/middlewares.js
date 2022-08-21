@@ -29,6 +29,7 @@ export async function getLocalDataMiddleware (to, from, next) {
       const userData = localStorage.getItem('userData')
       const localToken = localStorage.getItem('token')
       $store.commit('user/SET_CURRENT_USER', JSON.parse(userData))
+      console.log(localToken);
       AuthService.setBearer(localToken)
       next()
     } catch (e) {

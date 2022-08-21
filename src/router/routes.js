@@ -33,6 +33,8 @@ import editSpecification from '@/pages/Admin/DetailController/editSpecification.
 
 import listShowroom from '@/pages/Admin/SellerController/listShowroom.vue'
 
+import listUser from '@/pages/Admin/UserController/listUser.vue'
+
 export const routes = [
   {
     path: '/',
@@ -179,6 +181,13 @@ export const routes = [
     name: 'listShowroom',
     component: listShowroom,
     meta: { isAuth: true, title: `${DOMAIN_TITLE} | Danh sách showroom`, layout: 'admin' }
+  },
+
+  {
+    path: '/admin/list-user',
+    name: 'listUser',
+    component: listUser,
+    meta: { isAuth: true, title: `${DOMAIN_TITLE} | Danh sách tài khoản`, layout: 'admin' }
   },
   
 ]

@@ -24,72 +24,95 @@
                                         </div>
                                     </div>
                                 </div>
-                                <form @submit.prevent="register()">
-                                    <div class="form-group">
-                                        <label class="form-label" for="name">Tên</label>
-                                        <div class="form-control-wrap">
-                                            <input v-model="authData.username" type="text" class="form-control form-control-lg" placeholder="Nhập tên" required>
+                                <ValidationObserver ref="register">
+                                  <form @submit.prevent="register()">
+                                      <ValidationProvider
+                                          rules="required"
+                                          vid="nameRegister"
+                                          name="Tên đăng nhập"
+                                        >
+                                        <div class="form-group" slot-scope="{ errors }">
+                                            <label class="form-label" for="name">Tên đăng nhập</label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="authData.username" type="text" class="form-control form-control-lg" placeholder="Nhập tên" required>
+                                                <p class="text-danger">{{ errors[0] }}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="fullName">Tên đầy đủ</label>
-                                        <div class="form-control-wrap">
-                                            <input v-model="authData.fullName" type="text" class="form-control form-control-lg" placeholder="Nhập tên đầy đủ">
+                                      </ValidationProvider>
+                                      <div class="form-group">
+                                          <label class="form-label" for="fullName">Tên đầy đủ</label>
+                                          <div class="form-control-wrap">
+                                              <input v-model="authData.fullName" type="text" class="form-control form-control-lg" placeholder="Nhập tên đầy đủ">
+                                          </div>
+                                      </div>
+                                      <ValidationProvider
+                                        rules="required|mail"
+                                        vid="emailRegister"
+                                        name="Email"
+                                      >
+                                        <div class="form-group" slot-scope="{ errors }">
+                                            <label class="form-label" for="email">Email</label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="authData.email" type="email" class="form-control form-control-lg" placeholder="Nhập email">
+                                                <p class="text-danger">{{ errors[0] }}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="email">Email</label>
-                                        <div class="form-control-wrap">
-                                            <input v-model="authData.email" type="email" class="form-control form-control-lg" placeholder="Nhập email">
+                                      </ValidationProvider>
+                                      <ValidationProvider
+                                        rules="required|regexPhone"
+                                        vid="phoneRegister"
+                                        name="Số điện thoại"
+                                      >
+                                        <div class="form-group" slot-scope="{ errors }">
+                                            <label class="form-label">Số điện thoại</label>
+                                            <div class="form-control-wrap">
+                                                <input v-model="authData.phone" type="number" class="form-control form-control-lg" placeholder="Nhập số điện thoại">
+                                                <p class="text-danger">{{ errors[0] }}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Số điện thoại</label>
-                                        <div class="form-control-wrap">
-                                            <input v-model="authData.phone" type="number" class="form-control form-control-lg" placeholder="Nhập số điện thoại">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Địa chỉ</label>
-                                        <div class="form-control-wrap">
-                                            <input v-model="authData.address" type="text" class="form-control form-control-lg" placeholder="Nhập số điện thoại">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Loại user</label>
-                                        <div class="form-control-wrap">
-                                            <b-form-select class="w-100" v-model="authData.typeUser" :options="listTypeUser"></b-form-select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="password">Mật khẩu</label>
-                                        <div class="form-control-wrap">
-                                            <a href="javascript:void(0)" @click="typePassword === 'password' ? typePassword = 'text' : typePassword = 'password'"
-                                              class="form-icon form-icon-right passcode-switch lg" data-target="password"
-                                            >
-                                                <em v-if="typePassword === 'password'" class="passcode-icon icon-show icon ni ni-eye"></em>
-                                                <em v-else class="passcode-icon icon-show icon ni ni-eye-off"></em>
-                                            </a>
-                                            <input v-model="authData.passwd" :type="typePassword" class="form-control form-control-lg" id="password" placeholder="Nhập mật khẩu">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="password">Nhập lại mật khẩu</label>
-                                        <div class="form-control-wrap">
-                                            <a href="javascript:void(0)" @click="typePassword === 'password' ? typePassword = 'text' : typePassword = 'password'"
-                                              class="form-icon form-icon-right passcode-switch lg" data-target="password"
-                                            >
-                                                <em v-if="typePassword === 'password'" class="passcode-icon icon-show icon ni ni-eye"></em>
-                                                <em v-else class="passcode-icon icon-show icon ni ni-eye-off"></em>
-                                            </a>
-                                            <input v-model="authData.rewritePassword" :type="typePassword" @input="checkRewritePassword" class="form-control form-control-lg" id="password" placeholder="Nhập mật khẩu">
-                                        </div>
-                                    </div>
-                                    <p class="text-center text-danger mt-2 fs-6" v-show="messageErr">{{ messageErr }}</p>
-                                    <div class="form-group">
-                                        <button class="btn btn-lg btn-primary btn-block">Đăng ký</button>
-                                    </div>
-                                </form>
+                                      </ValidationProvider>
+                                      <div class="form-group">
+                                          <label class="form-label">Địa chỉ</label>
+                                          <div class="form-control-wrap">
+                                              <input v-model="authData.address" type="text" class="form-control form-control-lg" placeholder="Nhập số điện thoại">
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="form-label">Loại tài khoản</label>
+                                          <div class="form-control-wrap">
+                                              <b-form-select class="w-100" v-model="authData.typeUser" :options="listTypeUser"></b-form-select>
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="form-label" for="password">Mật khẩu</label>
+                                          <div class="form-control-wrap">
+                                              <a href="javascript:void(0)" @click="typePassword === 'password' ? typePassword = 'text' : typePassword = 'password'"
+                                                class="form-icon form-icon-right passcode-switch lg" data-target="password"
+                                              >
+                                                  <em v-if="typePassword === 'password'" class="passcode-icon icon-show icon ni ni-eye"></em>
+                                                  <em v-else class="passcode-icon icon-show icon ni ni-eye-off"></em>
+                                              </a>
+                                              <input v-model="authData.passwd" :type="typePassword" class="form-control form-control-lg" id="password" placeholder="Nhập mật khẩu">
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="form-label" for="password">Nhập lại mật khẩu</label>
+                                          <div class="form-control-wrap">
+                                              <a href="javascript:void(0)" @click="typePassword === 'password' ? typePassword = 'text' : typePassword = 'password'"
+                                                class="form-icon form-icon-right passcode-switch lg" data-target="password"
+                                              >
+                                                  <em v-if="typePassword === 'password'" class="passcode-icon icon-show icon ni ni-eye"></em>
+                                                  <em v-else class="passcode-icon icon-show icon ni ni-eye-off"></em>
+                                              </a>
+                                              <input v-model="authData.rewritePassword" :type="typePassword" @input="checkRewritePassword" class="form-control form-control-lg" id="password" placeholder="Nhập mật khẩu">
+                                          </div>
+                                      </div>
+                                      <p class="text-center text-danger mt-2 fs-6" v-show="messageErr">{{ messageErr }}</p>
+                                      <div class="form-group">
+                                          <button class="btn btn-lg btn-primary btn-block">Đăng ký</button>
+                                      </div>
+                                  </form>
+                                </ValidationObserver>
                                 <div class="form-note-s2 d-flex justify-content-between pt-4 px-3">
                                   <a href="javascript:void(0)" @click="goBackHome">Trang chủ</a>
                                   <a href="javascript:void(0)" @click="$router.push('/login')"><strong>Đăng nhập</strong></a>
@@ -147,7 +170,7 @@ export default {
       messageErr: null,
       typePassword: 'password',
       listTypeUser: [
-        { value: null, text: 'Chọn loại user' },
+        { value: null, text: 'Chọn tài khoản' },
         { value: 'SALON', text: 'Salon' },
         { value: 'SHOWROOM', text: 'Showroom' },
         { value: 'INDIVIDUAL', text: 'Cá nhân' },
@@ -157,6 +180,8 @@ export default {
   methods: {
     async register () {
       try {
+        const isSuccess = await this.$refs.register.validate()
+        if (!isSuccess) return
         if (!this.authData.username || !this.authData.passwd) return
 
         if (this.authData.rewritePassword !== this.authData.passwd) {
@@ -199,7 +224,7 @@ export default {
 
 <style scoped>
 .logo-link {
-  background: radial-gradient(black, transparent);
+  background: radial-gradient(#6576ff, transparent);
   border-radius: 10px;
 }
 </style>

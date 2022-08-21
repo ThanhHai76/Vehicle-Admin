@@ -11,8 +11,8 @@
 
           <div class="nk-sidebar-brand">
               <a href="html/index.html" class="logo-link nk-sidebar-logo">
-                  <img class="logo-light logo-img" src="@/assets/auth-css/images/logo.png" srcset="@/assets/auth-css/images/logo2x.png 2x" alt="logo">
-                  <img class="logo-dark logo-img" src="@/assets/auth-css/images/logo-dark.png" srcset="@/assets/auth-css/images/logo-dark2x.png 2x" alt="logo-dark">
+                  <img class="logo-light logo-img" src="@/assets/images/logoxesang.png" alt="logo">
+                  <img class="logo-dark logo-img" src="@/assets/images/logoxesang.png" alt="logo-dark">
               </a>
           </div>
       </div><!-- .nk-sidebar-element -->
@@ -45,7 +45,7 @@
                               </span>
                           </router-link>
                       </li><!-- .nk-menu-item -->
-                      <li class="nk-menu-item">
+                      <li class="nk-menu-item" v-if="dataUser.memberType === 'ROLE_ADMIN'">
                           <router-link class="nk-menu-link" to="/admin/list-specification">
                               <span class="nk-menu-icon"><em class="icon ni ni-dot-box"></em></span>
                               <span class="nk-menu-text">
@@ -53,14 +53,22 @@
                               </span>
                           </router-link>
                       </li><!-- .nk-menu-item -->
-                       <li class="nk-menu-item">
-                          <router-link class="nk-menu-link" to="/admin/list-showroom">
-                              <span class="nk-menu-icon"><em class="icon ni ni-list"></em></span>
-                              <span class="nk-menu-text">
-                                Danh sách showroom
-                              </span>
-                          </router-link>
-                      </li><!-- .nk-menu-item -->
+                      <li class="nk-menu-item">
+                        <router-link class="nk-menu-link" to="/admin/list-showroom">
+                            <span class="nk-menu-icon"><em class="icon ni ni-list"></em></span>
+                            <span class="nk-menu-text">
+                              Danh sách showroom
+                            </span>
+                        </router-link>
+                    </li><!-- .nk-menu-item -->
+                    <li class="nk-menu-item" v-if="dataUser.memberType === 'ROLE_ADMIN'">
+                        <router-link class="nk-menu-link" to="/admin/list-user">
+                            <span class="nk-menu-icon"><em class="icon ni ni-dot-box"></em></span>
+                            <span class="nk-menu-text">
+                              Danh sách tài khoản
+                            </span>
+                        </router-link>
+                    </li><!-- .nk-menu-item -->
 
                   </ul><!-- .nk-menu -->
               </div><!-- .nk-sidebar-menu -->
@@ -74,6 +82,7 @@ import EventBus from './EventBus'
 export default {
   data () {
     return {
+      dataUser: JSON.parse(localStorage.getItem('userData')),
       showMiniSidebar: false,
       showSidebarHover: false,
       showSidebarActive: false

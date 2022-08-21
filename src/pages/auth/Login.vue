@@ -10,8 +10,8 @@
                     <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
                         <div class="brand-logo pb-4 text-center">
                             <a href="#" class="logo-link">
-                                <img class="logo-light logo-img logo-img-lg" src="@/assets/images/logoxesang.png" srcset="@/assets/auth-css/images/logo2x.png 2x" alt="logo">
-                                <img class="logo-dark logo-img logo-img-lg" src="@/assets/images/logoxesang.png" srcset="@/assets/auth-css/images/logo-dark2x.png 2x" alt="logo-dark">
+                                <img class="logo-light logo-img logo-img-lg" src="@/assets/images/logoxesang.png" alt="logo">
+                                <img class="logo-dark logo-img logo-img-lg" src="@/assets/images/logoxesang.png" alt="logo-dark">
                             </a>
                         </div>
                         <div class="card card-bordered">
@@ -161,7 +161,7 @@ import { AuthService } from '@/services/auth.service'
 
 <style scoped>
 .logo-link {
-  background: radial-gradient(black, transparent);
+  background: radial-gradient(#6576ff, transparent);
   border-radius: 10px;
 }
 </style>
