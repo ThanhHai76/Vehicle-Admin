@@ -83,30 +83,44 @@
                                               <b-form-select class="w-100" v-model="authData.typeUser" :options="listTypeUser"></b-form-select>
                                           </div>
                                       </div>
-                                      <div class="form-group">
-                                          <label class="form-label" for="password">Mật khẩu</label>
-                                          <div class="form-control-wrap">
-                                              <a href="javascript:void(0)" @click="typePassword === 'password' ? typePassword = 'text' : typePassword = 'password'"
-                                                class="form-icon form-icon-right passcode-switch lg" data-target="password"
-                                              >
-                                                  <em v-if="typePassword === 'password'" class="passcode-icon icon-show icon ni ni-eye"></em>
-                                                  <em v-else class="passcode-icon icon-show icon ni ni-eye-off"></em>
-                                              </a>
-                                              <input v-model="authData.passwd" :type="typePassword" class="form-control form-control-lg" id="password" placeholder="Nhập mật khẩu">
-                                          </div>
-                                      </div>
-                                      <div class="form-group">
-                                          <label class="form-label" for="password">Nhập lại mật khẩu</label>
-                                          <div class="form-control-wrap">
-                                              <a href="javascript:void(0)" @click="typePassword === 'password' ? typePassword = 'text' : typePassword = 'password'"
-                                                class="form-icon form-icon-right passcode-switch lg" data-target="password"
-                                              >
-                                                  <em v-if="typePassword === 'password'" class="passcode-icon icon-show icon ni ni-eye"></em>
-                                                  <em v-else class="passcode-icon icon-show icon ni ni-eye-off"></em>
-                                              </a>
-                                              <input v-model="authData.rewritePassword" :type="typePassword" @input="checkRewritePassword" class="form-control form-control-lg" id="password" placeholder="Nhập mật khẩu">
-                                          </div>
-                                      </div>
+                                      <ValidationProvider
+                                        rules="required|regexPassword"
+                                        vid="password"
+                                        name="Mật khẩu"
+                                      >
+                                        <div class="form-group" slot-scope="{ errors }">
+                                            <label class="form-label" for="password">Mật khẩu</label>
+                                            <div class="form-control-wrap">
+                                                <a href="javascript:void(0)" @click="typePassword === 'password' ? typePassword = 'text' : typePassword = 'password'"
+                                                  class="form-icon form-icon-right passcode-switch lg" data-target="password"
+                                                >
+                                                    <em v-if="typePassword === 'password'" class="passcode-icon icon-show icon ni ni-eye"></em>
+                                                    <em v-else class="passcode-icon icon-show icon ni ni-eye-off"></em>
+                                                </a>
+                                                <input v-model="authData.passwd" :type="typePassword" class="form-control form-control-lg" id="password" placeholder="Nhập mật khẩu">
+                                                <p class="text-danger">{{ errors[0] }}</p>
+                                            </div>
+                                        </div>
+                                      </ValidationProvider>
+                                      <ValidationProvider
+                                        rules="required|regexPassword"
+                                        vid="rewritePassword"
+                                        name="Mật khẩu"
+                                      >
+                                        <div class="form-group" slot-scope="{ errors }">
+                                            <label class="form-label" for="password">Nhập lại mật khẩu</label>
+                                            <div class="form-control-wrap">
+                                                <a href="javascript:void(0)" @click="typePassword === 'password' ? typePassword = 'text' : typePassword = 'password'"
+                                                  class="form-icon form-icon-right passcode-switch lg" data-target="password"
+                                                >
+                                                    <em v-if="typePassword === 'password'" class="passcode-icon icon-show icon ni ni-eye"></em>
+                                                    <em v-else class="passcode-icon icon-show icon ni ni-eye-off"></em>
+                                                </a>
+                                                <input v-model="authData.rewritePassword" :type="typePassword" @input="checkRewritePassword" class="form-control form-control-lg" id="password" placeholder="Nhập mật khẩu">
+                                                <p class="text-danger">{{ errors[0] }}</p>
+                                            </div>
+                                        </div>
+                                      </ValidationProvider>
                                       <p class="text-center text-danger mt-2 fs-6" v-show="messageErr">{{ messageErr }}</p>
                                       <div class="form-group">
                                           <button class="btn btn-lg btn-primary btn-block">Đăng ký</button>
@@ -197,7 +211,7 @@ export default {
           })
           setTimeout(() => {
             this.$router.push('/login')
-          }, 1000);
+          }, 1500);
         } else {
           this.messageErr = data.message
         }

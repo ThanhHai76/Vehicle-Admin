@@ -107,8 +107,8 @@
                                             </td>
                                             <td class="tb-tnx-action">
                                                 <b-dropdown text="...">
-                                                  <b-dropdown-item @click="showEditTransport(item)">Sửa</b-dropdown-item>
-                                                  <b-dropdown-item @click="beforeDeleteTransport(item)">Xoá</b-dropdown-item>
+                                                  <b-dropdown-item @click="showEditTransport(item)"> <em class="icon ni ni-edit"></em> Sửa</b-dropdown-item>
+                                                  <b-dropdown-item @click="beforeDeleteTransport(item)"> <em class="icon ni ni-delete"></em> Xoá</b-dropdown-item>
                                                 </b-dropdown>
                                             </td>
                                         </tr>

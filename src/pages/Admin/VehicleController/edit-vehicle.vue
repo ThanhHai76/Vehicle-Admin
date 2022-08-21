@@ -59,6 +59,13 @@
                           </div>
                           <div class="dropdown-inner">
                               <ul class="link-list">
+                                  <li><a href="javascript:void(0)" @click="$router.push('/change-password')">
+                                  <b-icon class="mr-2" icon="key"></b-icon> 
+                                  <span>Đổi mật khẩu</span></a></li>
+                              </ul>
+                          </div>
+                          <div class="dropdown-inner">
+                              <ul class="link-list">
                                   <li><a href="javascript:void(0)" @click="logout()"><em class="icon ni ni-signout"></em><span>Đăng xuất</span></a></li>
                               </ul>
                           </div>

@@ -1,6 +1,7 @@
 // single pages
 import homePage from '@/pages/Home.vue'
 import loginPage from '@/pages/auth/Login.vue'
+import changePassword from '@/pages/auth/change-password.vue'
 import registerPage from '@/pages/auth/Register.vue'
 import notFoundPage from '@/pages/NotFound.vue'
 
@@ -119,6 +120,13 @@ export const routes = [
     component: registerPage,
     meta: { title: `${DOMAIN_TITLE} | register`, layout: 'login' }
   },
+  {
+    path: '/change-password',
+    name: 'changePassword',
+    component: changePassword,
+    meta: { title: `${DOMAIN_TITLE} | login`, layout: 'login' }
+  },
+
   {
     path: '/admin',
     name: 'adminHome',

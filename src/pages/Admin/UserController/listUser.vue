@@ -59,11 +59,19 @@
                           </div>
                           <div class="dropdown-inner">
                               <ul class="link-list">
+                                  <li><a href="javascript:void(0)" @click="$router.push('/change-password')">
+                                  <b-icon class="mr-2" icon="key"></b-icon> 
+                                  <span>Đổi mật khẩu</span></a></li>
+                              </ul>
+                          </div>
+                          <div class="dropdown-inner">
+                              <ul class="link-list">
                                   <li><a href="javascript:void(0)" @click="logout()"><em class="icon ni ni-signout"></em><span>Đăng xuất</span></a></li>
                               </ul>
                           </div>
                         </b-dropdown-item>
                       </b-dropdown>
+                      
                       <li class="dropdown notification-dropdown mr-n1">
                           <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
                               <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
@@ -247,6 +255,7 @@
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <ul class="link-list-opt no-bdr">
                                                                     <li><a href="javascript:void(0)" @click="editUser(item.id)"><em class="icon ni ni-edit"></em><span>Sửa</span></a></li>
+                                                                    <li><a href="javascript:void(0)" @click="openAskResetPassword(item)"><em class="icon ni ni-unlock"></em><span>Reset password</span></a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -288,6 +297,21 @@
         >
         </show-user-info>
 
+        <b-modal v-model="showModalAskResetPassword" class="modal-noti" title="Thông báo" centered>
+          <div class="text-center">
+            <b-icon icon="exclamation-circle-fill" class="noti-icon" variant="warning"></b-icon>
+            <h5 class="text-noti mt-3 mb-2">{{ messNoti }}</h5>
+          </div>
+          <template #modal-footer="{ cancel }">
+            <b-button size="sm" variant="primary" @click="resetPassword()">
+              Xác nhận
+            </b-button>
+            <b-button size="sm" variant="light" @click="cancel()">
+              Đóng
+            </b-button>
+          </template>
+        </b-modal>
+
     </div>
     
  </div>
@@ -327,7 +351,8 @@ export default {
         { id: 'ROLE_ADMIN', text: 'Tài khoản quản trị' }
       ],
       dataUserDetail: {},
-      showModalView: false
+      showModalView: false,
+      showModalAskResetPassword: false
     }
   },
 
@@ -386,21 +411,34 @@ export default {
         this.showModalView = true
         this.dataUserDetail = data
       } catch (error) {
-        
+        console.log(error)
       }
     },
 
-    showCreateSeller () {
-      this.showModalAdd = true
-      this.title = 'Thêm showroom'
-      this.editData = {
-        address: '',
-        fullName: '',
-        phone: '',
-        typeSellers: null,
-        vehicleIds: [
-          'string'
-        ]
+    openAskResetPassword (item) {
+      this.showModalAskResetPassword = true
+      this.messNoti = `Bạn có chắc chắn muốn reset password của tài khoản ${item.username}`
+      this.itemSelected = item
+    },
+
+    async resetPassword () {
+      try {
+        const response = await UsersService.resetPassword({
+          id: this.itemSelected.id
+        })
+        if (response.code === 1000) {
+          this.showModalNoti = true
+          this.notiSuccess = true
+          this.messNoti = `Reset password của tài khoản ${this.itemSelected.username} thành công. Password là ${response.data.password}`
+        } else {
+          this.showModalNoti = true
+          this.notiSuccess = false
+          this.messNoti = response.message
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.showModalAskResetPassword = false
       }
     }
   }
@@ -408,4 +446,9 @@ export default {
 </script>
 
 <style scoped>
+.noti-icon {
+  font-size: 50px;
+  text-align: center;
+  margin-top: 1rem;
+}
 </style>
