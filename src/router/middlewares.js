@@ -41,6 +41,9 @@ export async function getLocalDataMiddleware (to, from, next) {
 }
 
 export async function getEndpointConfigMiddleware (to, from, next) {
+  const token = localStorage.getItem('token')
+  if (token) AuthService.checkPermission(token)
+
   const endPointConfig = $store.state.endpoint.endPointConfig
   await $store.dispatch('endpoint/getEndpointConfig')
   next()

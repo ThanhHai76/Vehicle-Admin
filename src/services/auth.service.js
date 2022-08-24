@@ -133,6 +133,26 @@ export class AuthService {
       return new Promise(resolve => resolves.push(resolve))
     }
   }
+
+  static async checkPermission (token) {
+    try {
+      const response = await axios.post(`${API_URL}/transport/get-list-transport`, {
+        codeParent: 'transport'
+      }, {
+        headers: {
+          Authorization: 'Bearer ' + token
+        }
+      })
+      if (response.data.code !== 1000 || response.status !== 200) {
+        await $store.dispatch('user/clear')
+        $store.dispatch('auth/logout')
+      }
+    } catch (error) {
+      console.log(error)
+      await $store.dispatch('user/clear')
+      $store.dispatch('auth/logout')
+    }
+  }
 }
 
 /**
