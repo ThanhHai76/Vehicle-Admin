@@ -217,7 +217,7 @@
                                         </div><!-- .nk-tb-item -->
                                         <div class="nk-tb-item text-center" v-for="(item, index) in dataListUser" :key="item.id">
                                             <div class="nk-tb-col nk-tb-col-check">
-                                                {{ index + 1 }}
+                                                {{ ((search.page - 1) * search.limit) + index + 1 }}
                                             </div>
                                             <div class="nk-tb-col">
                                                 <div class="user-card justify-content-center">
@@ -337,7 +337,7 @@ export default {
       title: null,
       search: {
         page: 1,
-        limit: 20,
+        limit: 10,
         total: 0
       },
       listTypeUser: [
@@ -359,6 +359,12 @@ export default {
   components: {
     createSeller,
     ShowUserInfo
+  },
+
+  watch: {
+    'search.page': function () {
+      this.getListUser()
+    }
   },
 
   async mounted () {
@@ -390,8 +396,8 @@ export default {
         const { data } = await UsersService.getListUser({
           address: "",
           fullName: "",
-          limit: 20,
-          page: 1,
+          limit: this.search.limit,
+          page: this.search.page,
           phone: "",
           status: "",
           typeUser: "",

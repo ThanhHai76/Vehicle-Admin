@@ -86,7 +86,7 @@
                                     <tbody>
                                         <tr class="tb-tnx-item text-center" v-for="(item, index) in brandData" :key="item.id">
                                             <td class="tb-tnx-id">
-                                                <a href="#"><span>{{ index + 1 }}</span></a>
+                                                <a href="#"><span>{{ ((search.page - 1) * search.limit) + index + 1 }}</span></a>
                                             </td>
                                             <td class="tb-tnx-info">
                                                 <div class="tb-tnx-desc">
@@ -378,12 +378,15 @@ export default {
       dataAllCompany: [],
       dataAllSeries: [],
       dataAllModel: [],
-      codeParentItemSelected: null
+      codeParentItemSelected: null,
+      typeGetList: ''
     }
   },
   watch: {
     'search.page': function () {
-      this.getListBrand()
+      if (this.typeGetList === 'brand') this.getListBrand(this.selectData.codeTransport)
+      if (this.typeGetList === 'series') this.getListSeries(this.selectData.codeTransport)
+      if (this.typeGetList === 'model') this.getListModel(this.selectData.codeTransport)
     }
   },
 
@@ -404,6 +407,7 @@ export default {
 
     async getListBrand (code) {
       try {
+        this.typeGetList = 'brand'
         this.selectData.codeTransport = code
         this.selectData.idParent = this.transportData.find(e => e.code === code).id
         this.brandData = []
@@ -434,6 +438,7 @@ export default {
 
     async getListSeries (code) {
       try {
+        this.typeGetList = 'series'
         this.selectData.codeTransport = code
         this.selectData.idParent = this.dataAllCompany.find(e => e.code === code).id
         this.seriesOptions = []
@@ -467,6 +472,7 @@ export default {
 
     async getListModel (code) {
       try {
+        this.typeGetList = 'model'
         this.selectData.codeTransport = code
         this.selectData.idParent = this.dataAllSeries.find(e => e.code === code).id
         this.modelOptions = []

@@ -213,7 +213,7 @@
                                         </div><!-- .nk-tb-item -->
                                         <div class="nk-tb-item text-center" v-for="(item, index) in dataListVehicle" :key="item.id">
                                             <div class="nk-tb-col nk-tb-col-check">
-                                                {{ index + 1 }}
+                                                {{ ((search.page - 1) * search.limit) + index + 1 }}
                                             </div>
                                             <div class="nk-tb-col">
                                                 <div class="user-card">
@@ -342,7 +342,7 @@ export default {
       },
       search: {
         page: 1,
-        limit: 20,
+        limit: 10,
         total: 0
       },
       dataListVehicle: [],
@@ -351,6 +351,12 @@ export default {
       notiSuccess: false,
       messNoti: null,
       showModalAdd: false,
+    }
+  },
+
+  watch: {
+    'search.page': function () {
+      this.submitSearch()
     }
   },
 
