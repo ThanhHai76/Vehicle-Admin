@@ -336,7 +336,7 @@ export default {
       dataCreateTransport: [],
       search: {
         page: 1,
-        limit: 8,
+        limit: 10,
         total: 0
       },
       createData: {
@@ -408,7 +408,9 @@ export default {
         this.selectData.idParent = this.transportData.find(e => e.code === code).id
         this.brandData = []
         const response = await TransportService.getListTransport({
-          codeParent: code ? code : ''
+          codeParent: code ? code : '',
+          limit: this.search.limit,
+          page: this.search.page
         })
 
         this.companyOptions = [{ value: null, text: 'Chọn hãng'}]
@@ -420,6 +422,8 @@ export default {
 
         this.brandData = response.data.transportListRes
         this.dataAllCompany = response.data.transportListRes
+
+        this.search.total = response.totalPage.total
       } catch (error) {
         console.log(error)
       } finally {
@@ -436,7 +440,9 @@ export default {
         this.selectData.series = null
         this.selectData.model = null
         const response = await TransportService.getListTransport({
-          codeParent: code ? code : ''
+          codeParent: code ? code : '',
+          limit: this.search.limit,
+          page: this.search.page
         })
         const seriesOptions = response.data.transportListRes.map((e) => {
           return { value: e.code, text: e.name }
@@ -450,6 +456,8 @@ export default {
 
         this.brandData = response.data.transportListRes
         this.dataAllSeries = response.data.transportListRes
+
+        this.search.total = response.totalPage.total
       } catch (error) {
         console.log(error)
       } finally {
@@ -464,7 +472,9 @@ export default {
         this.modelOptions = []
         this.selectData.model = null
         const response = await TransportService.getListTransport({
-          codeParent: code ? code : ''
+          codeParent: code ? code : '',
+          limit: this.search.limit,
+          page: this.search.page
         })
         const modelOptions = response.data.transportListRes.map((e) => {
           return { value: e.code, text: e.name }
@@ -478,6 +488,8 @@ export default {
 
         this.brandData = response.data.transportListRes
         this.dataAllModel = response.data.transportListRes
+
+        this.search.total = response.totalPage.total
       } catch (error) {
         console.log(error)
       }
@@ -486,9 +498,13 @@ export default {
     async changeModel (code) {
       this.selectData.codeTransport = code
       const response = await TransportService.getListTransport({
-        codeParent: code ? code : ''
+        codeParent: code ? code : '',
+        limit: this.search.limit,
+        page: this.search.page
       })
       this.brandData = response.data.transportListRes
+
+      this.search.total = response.totalPage.total
     },
 
     async createCompany () {

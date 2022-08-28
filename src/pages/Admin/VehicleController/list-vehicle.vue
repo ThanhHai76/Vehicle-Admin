@@ -235,7 +235,9 @@
                                             </div>
                                             <div class="nk-tb-col tb-col-lg">
                                                 <ul class="list-status">
-                                                    <li><em class="icon text-success ni ni-check-circle"></em> <span>{{ item.manufactureYear }}</span></li>
+                                                    <li>
+                                                      <!-- <em class="icon text-success ni ni-check-circle"></em> -->
+                                                      <span>{{ item.manufactureYear }}</span></li>
                                                 </ul>
                                             </div>
                                             <div class="nk-tb-col tb-col-lg">
@@ -267,6 +269,7 @@
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <ul class="link-list-opt no-bdr">
                                                                     <li><a href="javascript:void(0)" @click="navigateToEditVehicle(item.id)"><em class="icon ni ni-edit"></em><span>Sửa phương tiện</span></a></li>
+                                                                    <li><a href="javascript:void(0)" @click="approveVehicle(item.id)"><em class="icon ni ni-check-round-cut"></em><span>Duyệt</span></a></li>
                                                                     <li><a href="javascript:void(0)" @click="editSpecification(item.id)"><em class="icon ni ni-eye"></em><span>Sửa thông số kỹ thuật</span></a></li>
                                                                 </ul>
                                                             </div>
@@ -409,7 +412,8 @@ export default {
           maxManufactureYear: this.selectData.maxManufactureYear,
           status: this.selectData.status,
           limit: this.search.limit,
-          page: this.search.page
+          page: this.search.page,
+          userId: this.dataUser.id
         })
         if (response.code === 1000) {
           this.dataListVehicle = response.data.vehicleList
@@ -450,6 +454,27 @@ export default {
 
     editSpecification (itemId) {
       this.$router.push(`/admin/edit-specification?id=${itemId}`)
+    },
+
+    async approveVehicle (itemId) {
+      try {
+        const response = await VehicleService.editVehicle({
+          id: itemId,
+          statusVehicle: 'ACTIVE'
+        })
+        if (response.code === 1000) {
+          this.showModalNoti = true
+          this.notiSuccess = true
+          this.messNoti = 'Duyệt thành công'
+        } else {
+          this.showModalNoti = true
+          this.notiSuccess = false
+          this.messNoti = response.message
+        }
+        await this.submitSearch()
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
