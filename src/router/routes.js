@@ -35,6 +35,7 @@ import editSpecification from '@/pages/Admin/DetailController/editSpecification.
 import listShowroom from '@/pages/Admin/SellerController/listShowroom.vue'
 
 import listUser from '@/pages/Admin/UserController/listUser.vue'
+import configFooter from '@/pages/Admin/Config/FooterLogoConfig.vue'
 
 export const routes = [
   {
@@ -196,6 +197,13 @@ export const routes = [
     name: 'listUser',
     component: listUser,
     meta: { isAuth: true, title: `${DOMAIN_TITLE} | Danh sách tài khoản`, layout: 'admin' }
+  },
+
+  {
+    path: '/admin/config-footer',
+    name: 'configFooter',
+    component: configFooter,
+    meta: { isAuth: true, title: `${DOMAIN_TITLE} | Cấu hình footer`, layout: 'admin' }
   },
   
 ]
